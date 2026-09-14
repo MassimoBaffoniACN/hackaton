@@ -177,7 +177,8 @@
 
 // ── Visually Hidden (accessible) ─────────────────────────────────────────────
 // Hides visually but keeps accessible to screen readers.
-.sr-only {
+// Also applied to Angular CDK's live-announcer element via .cdk-visually-hidden.
+%visually-hidden {
   position:   absolute;
   width:      1px;
   height:     1px;
@@ -187,6 +188,16 @@
   clip:       rect(0, 0, 0, 0);
   white-space: nowrap;
   border:     0;
+}
+
+.sr-only {
+  @extend %visually-hidden;
+}
+
+// Angular CDK LiveAnnouncer injects an element with this class into <body>.
+// Without CDK a11y CSS imported, .cdk-visually-hidden has no styles — this ensures it.
+.cdk-visually-hidden {
+  @extend %visually-hidden;
 }
 
 

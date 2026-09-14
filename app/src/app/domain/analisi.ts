@@ -1,8 +1,23 @@
-/**
- * Risposta dell'endpoint POST /api/analisi.
- * La struttura dettagliata è definita dall'agente di parsing BE (fuori scope).
- * Aggiungere qui i campi man mano che la spec BE viene consolidata.
- */
+export interface CampoConConfidenza<T = string> {
+  valore: T | null;
+  confidenza: number | null;
+}
+
+export interface InformazioniPrincipali {
+  totale: CampoConConfidenza<number>;
+  scadenza: CampoConConfidenza<string>;
+  periodoRiferimento: CampoConConfidenza<string>;
+  consumo: CampoConConfidenza<string>;
+  statoPagamentiPrecedenti: CampoConConfidenza<string>;
+  daPagare: CampoConConfidenza<boolean>;
+  comePagare: CampoConConfidenza<string>;
+  contattiAssistenza: CampoConConfidenza<string>;
+  noteImportanti: CampoConConfidenza<string>;
+}
+
 export interface RispostaAnalisi {
-  [chiave: string]: unknown;
+  analisi?: unknown;
+  analisiRaw?: string;
+  spiegazione?: string;
+  informazioniPrincipali?: InformazioniPrincipali;
 }

@@ -29,6 +29,7 @@
 
     &--completed {
       border-color: var(--color-success);
+      box-shadow: 0 0 0 2px var(--color-success);
     }
 
     &--completed .stepper__icon {

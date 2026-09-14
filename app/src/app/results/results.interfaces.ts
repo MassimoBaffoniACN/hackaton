@@ -1,4 +1,12 @@
-/** Stato interno del componente results. Esteso quando arrivano i dati dell'analisi. */
-export interface ResultsState {
-  pronto: boolean;
+export interface InfoBox {
+  label: string;
+  valore: string;
+  icona: string;
+  confidenza: number | null;
+  variante: 'default' | 'success' | 'warning' | 'info';
+}
+
+export interface SezioneSpiegazione {
+  titolo: string;
+  testoHtml: string;
 }
