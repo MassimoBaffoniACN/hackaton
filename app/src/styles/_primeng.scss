@@ -1,0 +1,193 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// PrimeNG 21 — Design Token Mapping
+// Maps our :root tokens to PrimeNG CSS custom properties so all PrimeNG
+// components inherit the design system automatically, with zero overrides
+// needed at the component level.
+// ─────────────────────────────────────────────────────────────────────────────
+
+:root {
+
+  // ── Global ──────────────────────────────────────────────────────────────
+  --p-font-family:            var(--font-primary);
+  --p-font-size:              var(--font-size-base);
+  --p-text-color:             var(--color-text-primary);
+  --p-text-muted-color:       var(--color-text-secondary);
+  --p-text-hover-color:       var(--color-text-primary);
+  --p-surface-0:              var(--color-bg-surface);
+  --p-surface-ground:         var(--color-bg-page);
+  --p-surface-section:        var(--color-bg-subtle);
+  --p-surface-border:         var(--color-border);
+  --p-surface-overlay:        var(--color-bg-surface);
+  --p-border-radius-sm:       6px;
+  --p-border-radius-md:       var(--card-radius);
+  --p-border-radius-lg:       16px;
+  --p-border-radius-xl:       24px;
+  --p-focus-ring-shadow:      var(--focus-ring);
+  --p-focus-ring-offset:      var(--focus-ring-offset);
+  --p-focus-ring-color:       var(--color-border-focus);
+  --p-transition-duration:    var(--transition-fast);
+  --p-content-padding:        var(--card-padding);
+  --p-inline-spacing:         var(--space-2);
+  --p-icon-size:              var(--icon-size-base);
+
+  // ── Primary Color ───────────────────────────────────────────────────────
+  --p-primary-color:          var(--color-primary);
+  --p-primary-hover-color:    var(--color-primary-hover);
+  --p-primary-active-color:   var(--color-primary-active);
+  --p-primary-color-text:     var(--color-text-on-primary);
+  --p-highlight-background:   var(--color-primary-subtle);
+  --p-highlight-color:        var(--color-primary);
+
+  // ── Button ──────────────────────────────────────────────────────────────
+  --p-button-border-radius:   var(--btn-border-radius);
+  --p-button-padding-y:       var(--btn-padding-y);
+  --p-button-padding-x:       var(--btn-padding-x);
+  --p-button-font-size:       var(--btn-font-size);
+  --p-button-font-weight:     var(--btn-font-weight);
+  --p-button-icon-only-width: var(--btn-min-height);
+  --p-button-gap:             var(--btn-gap);
+
+  // Severity mappings
+  --p-button-success-background:       var(--color-success);
+  --p-button-success-hover-background: #005940;
+  --p-button-warning-background:       var(--color-warning);
+  --p-button-warning-hover-background: #7C3509;
+  --p-button-danger-background:        var(--color-error);
+  --p-button-danger-hover-background:  #7F1515;
+
+  // ── Card ────────────────────────────────────────────────────────────────
+  --p-card-border-radius:     var(--card-radius);
+  --p-card-shadow:            var(--card-shadow);
+  --p-card-body-padding:      var(--card-padding);
+  --p-card-title-font-size:   var(--font-size-lg);
+  --p-card-title-font-weight: var(--font-weight-bold);
+  --p-card-subtitle-color:    var(--color-text-secondary);
+
+  // ── Input / Form ────────────────────────────────────────────────────────
+  --p-inputtext-height:           var(--input-height);
+  --p-inputtext-padding-y:        var(--input-padding-y);
+  --p-inputtext-padding-x:        var(--input-padding-x);
+  --p-inputtext-border-radius:    var(--input-border-radius);
+  --p-inputtext-border-color:     var(--color-border);
+  --p-inputtext-hover-border-color: var(--color-border-strong);
+  --p-inputtext-focus-border-color: var(--color-border-focus);
+  --p-inputtext-color:            var(--color-text-primary);
+  --p-inputtext-placeholder-color: var(--color-text-muted);
+  --p-inputtext-background:       var(--color-bg-surface);
+  --p-inputtext-font-size:        var(--font-size-base);
+
+  // ── Select / Dropdown ───────────────────────────────────────────────────
+  --p-select-border-radius:       var(--input-border-radius);
+  --p-select-border-color:        var(--color-border);
+  --p-select-focus-border-color:  var(--color-border-focus);
+  --p-select-background:          var(--color-bg-surface);
+  --p-select-color:               var(--color-text-primary);
+  --p-select-overlay-background:  var(--color-bg-surface);
+  --p-select-overlay-border-color: var(--color-border);
+  --p-select-overlay-shadow:      var(--card-shadow);
+  --p-select-option-focus-background: var(--color-primary-subtle);
+  --p-select-option-selected-background: var(--color-primary-subtle);
+  --p-select-option-selected-color: var(--color-primary);
+
+  // ── Checkbox & Radio ────────────────────────────────────────────────────
+  --p-checkbox-width:           1.5rem;   // 24px — larger tap target
+  --p-checkbox-height:          1.5rem;
+  --p-checkbox-border-radius:   4px;
+  --p-checkbox-border-color:    var(--color-border-strong);
+  --p-checkbox-checked-background: var(--color-primary);
+  --p-checkbox-checked-border-color: var(--color-primary);
+  --p-radiobutton-width:        1.5rem;
+  --p-radiobutton-height:       1.5rem;
+  --p-radiobutton-border-color: var(--color-border-strong);
+  --p-radiobutton-checked-background: var(--color-primary);
+
+  // ── Dialog / Modal ──────────────────────────────────────────────────────
+  --p-dialog-border-radius:     var(--card-radius);
+  --p-dialog-shadow:            0 8px 40px rgba(27, 31, 46, 0.18);
+  --p-dialog-header-padding:    var(--space-6);
+  --p-dialog-content-padding:   var(--space-6);
+  --p-dialog-footer-padding:    var(--space-4) var(--space-6);
+  --p-dialog-title-font-size:   var(--font-size-xl);
+  --p-dialog-title-font-weight: var(--font-weight-bold);
+
+  // ── Toast / Message ─────────────────────────────────────────────────────
+  --p-toast-border-radius:      var(--card-radius);
+  --p-toast-shadow:             var(--card-shadow);
+  --p-message-border-radius:    8px;
+  --p-message-success-background: var(--color-success-subtle);
+  --p-message-success-border-color: var(--color-success-border);
+  --p-message-success-color:    var(--color-success);
+  --p-message-warn-background:  var(--color-warning-subtle);
+  --p-message-warn-border-color: var(--color-warning-border);
+  --p-message-warn-color:       var(--color-warning);
+  --p-message-error-background: var(--color-error-subtle);
+  --p-message-error-border-color: var(--color-error-border);
+  --p-message-error-color:      var(--color-error);
+  --p-message-info-background:  var(--color-primary-subtle);
+  --p-message-info-color:       var(--color-primary);
+
+  // ── DataTable ───────────────────────────────────────────────────────────
+  --p-datatable-header-cell-padding:  var(--space-3) var(--space-4);
+  --p-datatable-body-cell-padding:    var(--space-3) var(--space-4);
+  --p-datatable-header-background:    var(--color-bg-subtle);
+  --p-datatable-header-color:         var(--color-text-primary);
+  --p-datatable-header-font-weight:   var(--font-weight-bold);
+  --p-datatable-row-hover-background: var(--color-primary-subtle);
+  --p-datatable-border-color:         var(--color-border);
+
+  // ── Tabs ────────────────────────────────────────────────────────────────
+  --p-tabs-tab-padding:           var(--space-3) var(--space-6);
+  --p-tabs-tab-color:             var(--color-text-secondary);
+  --p-tabs-tab-active-color:      var(--color-primary);
+  --p-tabs-tab-hover-color:       var(--color-text-primary);
+  --p-tabs-active-bar-color:      var(--color-primary);
+  --p-tabs-active-bar-height:     3px;
+
+  // ── Tag / Badge ─────────────────────────────────────────────────────────
+  --p-tag-border-radius:          6px;
+  --p-tag-padding-y:              var(--space-1);
+  --p-tag-padding-x:              var(--space-3);
+  --p-tag-font-size:              var(--font-size-sm);
+  --p-tag-font-weight:            var(--font-weight-bold);
+
+  // ── Divider ─────────────────────────────────────────────────────────────
+  --p-divider-border-color:       var(--color-border);
+
+  // ── Tooltip ─────────────────────────────────────────────────────────────
+  --p-tooltip-background:         var(--color-text-primary);
+  --p-tooltip-color:              #FFFFFF;
+  --p-tooltip-border-radius:      6px;
+  --p-tooltip-padding:            var(--space-2) var(--space-3);
+  --p-tooltip-font-size:          var(--font-size-sm);
+}
+
+
+// ── Global PrimeNG Component Fixes ──────────────────────────────────────────
+
+// Ensure all buttons meet 48px minimum tap target
+.p-button {
+  min-height: var(--btn-min-height);
+  min-width:  var(--btn-min-width);
+}
+
+// Remove PrimeNG's default focus shadow in favour of our ring
+.p-button:focus-visible,
+.p-inputtext:focus-visible,
+.p-select:focus-visible,
+.p-checkbox:focus-visible,
+.p-radiobutton:focus-visible {
+  box-shadow: var(--focus-ring) !important;
+  outline: none;
+}
+
+// Cards: always full border + shadow, no bare panels
+.p-card {
+  border: 1px solid var(--color-border);
+}
+
+// Form labels always visible above the field, never inside
+.p-floatlabel label {
+  font-size:   var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  color:       var(--color-text-secondary);
+}

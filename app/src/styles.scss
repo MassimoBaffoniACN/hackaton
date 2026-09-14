@@ -1,1 +1,15 @@
-/* You can add global styles to this file, and also import other style files */
+// ─────────────────────────────────────────────────────────────────────────────
+// Global Stylesheet — load order matters.
+//
+// 1. tokens    — CSS custom properties in :root (design tokens)
+// 2. reset     — base HTML element styles using tokens
+// 3. primeng   — PrimeNG variable mapping + component fixes
+// 4. utilities — shared layout classes and patterns
+//
+// Font (Atkinson Hyperlegible) is loaded via <link> in index.html.
+// ─────────────────────────────────────────────────────────────────────────────
+
+@use 'styles/tokens';
+@use 'styles/reset';
+@use 'styles/primeng';
+@use 'styles/utilities';
