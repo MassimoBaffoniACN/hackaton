@@ -1,6 +1,12 @@
 # Bolletta Facile — CLAUDE.md
 
-SPA Angular 21 per la gestione delle bollette domestiche italiane (luce, gas, acqua). Progetto hackathon. Tutte le decisioni tecniche favoriscono correttezza e accessibilità rispetto alla velocità di sviluppo.
+App per **analizzare e spiegare** le bollette di luce e gas in linguaggio semplice, pensata per persone anziane o poco esperte. L'utente carica una bolletta (PDF/immagine); l'app mostra una spiegazione discorsiva, un riepilogo dei dati chiave e i campi estratti, ciascuno con il proprio grado di confidenza. Progetto hackathon. Tutte le decisioni tecniche favoriscono correttezza e accessibilità rispetto alla velocità di sviluppo.
+
+Due parti:
+- **Frontend** — SPA Angular 21 (questa è la parte che la pipeline di agenti costruisce).
+- **Backend** — servizio Spring Boot (Maven) in `backend/` che esegue a runtime la catena `bolletta-reader → bolletta-explainer` via l'SDK Anthropic per Java. Vedi `backend/README.md`.
+
+> Nota: la parte Angular che invoca l'API del backend **non esiste ancora** — è il prossimo passo.
 
 ---
 
@@ -17,6 +23,21 @@ npm run build      # build produzione
 
 Il dev server è configurato in `.claude/launch.json` — usa `preview_start "Angular Dev Server"` nel browser.
 
+Backend (dalla cartella `backend/`):
+
+```bash
+# MOCK — nessuna API key, dati di esempio, costo zero (per sviluppare il frontend)
+mvn spring-boot:run -Dspring-boot.run.profiles=mock
+
+# REALE — chiama Claude, richiede ANTHROPIC_API_KEY valida
+export ANTHROPIC_API_KEY="sk-ant-..."   # $env:ANTHROPIC_API_KEY="..." in PowerShell
+mvn spring-boot:run
+
+mvn -q -DskipTests compile   # solo compilazione
+```
+
+La differenza **mock vs reale** è centrale: in mock il backend non contatta Claude e non serve alcuna key; il contratto dell'API è identico, quindi il frontend si sviluppa a costo zero. Dettagli in `README.md` (sezione "Due modalità").
+
 ---
 
 ## Struttura del progetto
@@ -24,11 +45,11 @@ Il dev server è configurato in `.claude/launch.json` — usa `preview_start "An
 ```
 hackathon/
 ├── .claude/
-│   ├── agents/            ← sub-agent definitions (7 file .md)
+│   ├── agents/            ← sub-agent definitions (vedi "Sistema di agenti": build + runtime)
 │   ├── skills/
 │   ├── design-system.md   ← FONTE DI VERITÀ per UI: font, token, palette, pattern HTML/SCSS
 │   └── launch.json
-├── app/                   ← Angular workspace (unico progetto)
+├── app/                   ← Angular workspace (frontend)
 │   ├── angular.json
 │   ├── package.json
 │   └── src/
@@ -36,13 +57,22 @@ hackathon/
 │       ├── styles.scss    ← entry point SCSS, solo @use
 │       ├── styles/        ← _tokens.scss · _reset.scss · _primeng.scss · _utilities.scss
 │       └── app/
-│           ├── app.config.ts    ← providers globali (router, animations, PrimeNG)
+│           ├── app.config.ts    ← providers globali (router, HttpClient, animations, PrimeNG)
 │           ├── app.routes.ts    ← routing root, tutte le route lazy
 │           ├── domain/          ← interfacce e enum TypeScript del dominio (nessuna logica)
 │           ├── services/        ← singleton services (@Injectable providedIn:'root')
 │           └── {feature}/       ← un folder per feature: .ts · .html · .scss · .spec.ts
+├── backend/               ← servizio Spring Boot (Maven) — catena di agenti a runtime
+│   └── src/main/
+│       ├── java/it/inps/bollettafacile/   ← config · prompt · support · service · web
+│       └── resources/     ← application.yml · prompts/ (system prompt runtime) · mock/samples.json
+├── materiale_test/        ← bollette fac-simile di prova e output di esempio
 └── presentation/          ← slide statiche del progetto (non parte dell'app)
 ```
+
+**Contratto API backend ↔ frontend:** `POST /api/analizza` (multipart, campo `file`) →
+`{ analisi, spiegazione, informazioniPrincipali }`. È questo il contratto che la parte Angular
+(ancora da creare) dovrà consumare.
 
 ---
 
@@ -63,7 +93,12 @@ hackathon/
 
 ## Sistema di agenti
 
-Questo progetto usa una pipeline di sub-agent specializzati. **Non sviluppare fuori dalla pipeline** — ogni modifica non gestita da un agent rompe le garanzie di qualità.
+Nel repo convivono **due famiglie di agenti**, da non confondere:
+
+- **Agenti di sviluppo (build)** — costruiscono il codice dell'app Angular. Sono quelli della pipeline qui sotto.
+- **Agenti di runtime** — `bolletta-reader` e `bolletta-explainer`: elaborano una bolletta a runtime. NON costruiscono codice; girano nel backend Spring Boot come system prompt sulla Messages API (i loro `.md` sono la fonte, i file in `backend/src/main/resources/prompts/` la versione runtime). L'explainer produce, oltre alla spiegazione, l'oggetto `informazioniPrincipali` con i dati chiave e la confidenza ereditata dal reader.
+
+La sezione seguente riguarda gli **agenti di sviluppo**. Questo progetto usa una pipeline di sub-agent specializzati. **Non sviluppare fuori dalla pipeline** — ogni modifica non gestita da un agent rompe le garanzie di qualità.
 
 ### Agente di riferimento per richieste di sviluppo
 
@@ -91,7 +126,7 @@ Quando un agent rileva un'ottimizzazione fuori dal proprio dominio, emette un bl
 
 ### Scope boundary
 
-L'analisi/parsing del documento bolletta (PDF, OCR, estrazione dati) è gestita da un **agent separato creato da un collega** — non è in scope qui. Se un task riguarda quel dominio, reindirizza.
+L'analisi/parsing del documento bolletta (PDF, OCR, estrazione dati) **non è compito della pipeline di sviluppo**: avviene a runtime nel backend Spring Boot tramite l'agente `bolletta-reader`. Se un task di sviluppo riguarda l'estrazione dei dati dalla bolletta, riguarda il backend / il prompt del reader, non i componenti Angular.
 
 ---
 

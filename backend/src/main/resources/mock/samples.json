@@ -1,0 +1,431 @@
+[
+  {
+    "match": ["enel-luce"],
+    "isDefault": false,
+    "analisi": {
+      "fornitore": { "valore": "Enel Energia", "confidenza": 95 },
+      "tipoFornitura": { "valore": "LUCE", "confidenza": 100 },
+      "mercato": { "valore": "LIBERO", "confidenza": 90 },
+      "cliente": {
+        "nome": { "valore": "Mario Bianchi", "confidenza": 85 },
+        "codiceFiscale": { "valore": "BNCMRA70A01H501U", "confidenza": 80 },
+        "tipo": { "valore": "DOMESTICO", "confidenza": 95 }
+      },
+      "fornitura": {
+        "podOPdr": { "valore": "IT001E12345678", "confidenza": 85 },
+        "potenzaImpegnataKw": { "valore": 3, "confidenza": 90 },
+        "distributore": { "valore": "E-Distribuzione", "confidenza": 90 }
+      },
+      "fattura": {
+        "numero": { "valore": "3040293099", "confidenza": 80 },
+        "periodoInizio": { "valore": "2019-04", "confidenza": 85 },
+        "periodoFine": { "valore": "2019-05", "confidenza": 85 },
+        "tipo": { "valore": "RETTIFICA", "confidenza": 85 },
+        "scadenzaPagamento": { "valore": "2019-06-26", "confidenza": 80 },
+        "metodoPagamento": { "valore": "Addebito su conto corrente", "confidenza": 80 }
+      },
+      "offerta": {
+        "nome": { "valore": "Semplice Luce", "confidenza": 80 },
+        "tipoPrezzo": { "valore": "FISSO", "confidenza": 70 }
+      },
+      "consumi": {
+        "periodoKwhOSmc": { "valore": 225, "confidenza": 80 },
+        "unita": { "valore": "kWh", "confidenza": 90 },
+        "tipoLettura": { "valore": "STIMATA", "confidenza": 75 }
+      },
+      "importi": {
+        "canoneRai": { "valore": 7.00, "confidenza": 90 },
+        "totaleBolletta": { "valore": 58.40, "confidenza": 85 },
+        "bonusSconti": [],
+        "totaleDaPagare": { "valore": 65.40, "confidenza": 85 }
+      },
+      "codiciIdentificativi": {
+        "pod": { "valore": "IT001E12345678", "confidenza": 85 },
+        "pdr": { "valore": null, "confidenza": null }
+      },
+      "statoPagamentiPrecedenti": { "valore": "Nessun insoluto", "confidenza": 85 },
+      "contattiAssistenza": { "valore": "Servizio clienti Enel Energia 800 900 800", "confidenza": 90 },
+      "note": { "valore": "Bolletta di rettifica. (Dato mock)", "confidenza": 100 }
+    },
+    "spiegazione": "# La tua bolletta LUCE di Enel Energia — aprile-maggio 2019\n\n**In due parole:** è una bolletta della luce di 65,40 €, con addebito automatico sul conto corrente entro il 26 giugno 2019.\n\n## Che contratto hai\nEnergia elettrica con Enel Energia, sul mercato libero (hai scelto tu venditore e prezzo). Offerta «Semplice Luce». È una bolletta di rettifica (un ricalcolo di conguaglio).\n\n## Come si paga\nNon devi fare nulla: l'importo verrà prelevato automaticamente dal tuo conto corrente intorno al 26 giugno 2019. Basta avere i soldi sul conto.\n\n## Quanto consumi\nCirca 225 kWh nel periodo (lettura stimata, potrà essere corretta più avanti).\n\n## Quanto devi pagare\n**Totale da pagare: 65,40 €**, incluso il canone TV di 7,00 €.\n\n## Cose a cui fare attenzione\nEssendo una rettifica, l'importo può differire dal solito. Nessun altro problema rilevato.\n\n## Confidenza letture\n- Fornitore: Enel Energia (95%)\n- Totale: 65,40 € (85%)\n- Consumo: 225 kWh (80%)\n\nSe qualcosa non ti è chiaro, chiama il numero verde Enel 800 900 800.",
+    "informazioniPrincipali": {
+      "totale": { "valore": 65.40, "confidenza": 85 },
+      "scadenza": { "valore": "2019-06-26", "confidenza": 80 },
+      "periodoRiferimento": { "valore": "aprile-maggio 2019", "confidenza": 85 },
+      "consumo": { "valore": "225 kWh", "confidenza": 80 },
+      "statoPagamentiPrecedenti": { "valore": "Nessun insoluto", "confidenza": 85 },
+      "daPagare": { "valore": true, "confidenza": 85 },
+      "comePagare": { "valore": "Addebito automatico sul conto corrente", "confidenza": 80 },
+      "contattiAssistenza": { "valore": "Servizio clienti Enel Energia 800 900 800", "confidenza": 90 },
+      "noteImportanti": { "valore": "Bolletta di rettifica: l'importo può differire dal solito.", "confidenza": 85 }
+    }
+  },
+  {
+    "match": ["guida_bolletta_luce", "luce_edison"],
+    "isDefault": false,
+    "analisi": {
+      "fornitore": { "valore": "Edison Energia", "confidenza": 90 },
+      "tipoFornitura": { "valore": "LUCE", "confidenza": 100 },
+      "mercato": { "valore": "LIBERO", "confidenza": 90 },
+      "cliente": {
+        "nome": { "valore": "Mario Rossi SRL", "confidenza": 85 },
+        "codiceFiscale": { "valore": "12345678912", "confidenza": 80 },
+        "tipo": { "valore": "BUSINESS", "confidenza": 90 }
+      },
+      "fornitura": {
+        "podOPdr": { "valore": "IT000000001234", "confidenza": 85 },
+        "potenzaImpegnataKw": { "valore": 12, "confidenza": 85 },
+        "distributore": { "valore": "E-Distribuzione", "confidenza": 80 }
+      },
+      "fattura": {
+        "numero": { "valore": null, "confidenza": null },
+        "periodoInizio": { "valore": "2016-01", "confidenza": 80 },
+        "periodoFine": { "valore": "2016-02", "confidenza": 80 },
+        "tipo": { "valore": "ORDINARIA", "confidenza": 80 },
+        "scadenzaPagamento": { "valore": "2016-03-25", "confidenza": 80 },
+        "metodoPagamento": { "valore": "Bonifico bancario", "confidenza": 75 }
+      },
+      "offerta": {
+        "nome": { "valore": "Edison Web Business Luce", "confidenza": 85 },
+        "tipoPrezzo": { "valore": "FISSO", "confidenza": 75 }
+      },
+      "consumi": {
+        "periodoKwhOSmc": { "valore": 400, "confidenza": 85 },
+        "unita": { "valore": "kWh", "confidenza": 90 },
+        "tipoLettura": { "valore": "MISTO", "confidenza": 75 }
+      },
+      "importi": {
+        "canoneRai": { "valore": null, "confidenza": null },
+        "totaleBolletta": { "valore": 210.40, "confidenza": 85 },
+        "bonusSconti": [],
+        "totaleDaPagare": { "valore": 210.40, "confidenza": 85 }
+      },
+      "codiciIdentificativi": {
+        "pod": { "valore": "IT000000001234", "confidenza": 85 },
+        "pdr": { "valore": null, "confidenza": null }
+      },
+      "statoPagamentiPrecedenti": { "valore": null, "confidenza": null },
+      "contattiAssistenza": { "valore": "Servizio clienti Edison 800 031 141", "confidenza": 70 },
+      "note": { "valore": "Fac-simile business Edison con dati dimostrativi. (Dato mock)", "confidenza": 100 }
+    },
+    "spiegazione": "# La tua bolletta LUCE di Edison Energia — gennaio-febbraio 2016\n\n**Attenzione: questa è una bolletta di esempio (fac-simile), non una vera bolletta da pagare.**\n\n## Che contratto hai\nÈ una fornitura di energia elettrica per un'azienda (utenza business) con Edison, sul mercato libero. Offerta «Edison Web Business Luce».\n\n## Come si paga\nNell'esempio si paga con bonifico entro il 25 marzo 2016.\n\n## Quanto consumi\n400 kWh nel periodo (l'unità con cui si misura l'elettricità).\n\n## Quanto devi pagare\nNell'esempio il totale è **210,40 €** (IVA al 22% perché è un'utenza aziendale).\n\n## Cose a cui fare attenzione\nEssendo un fac-simile, i dati sono dimostrativi.\n\n## Confidenza letture\n- Fornitore: Edison Energia (90%)\n- Totale: 210,40 € (85%)\n- Consumo: 400 kWh (85%)\n\nSu una bolletta vera, se un dato non ti è chiaro chiama il numero verde del fornitore.",
+    "informazioniPrincipali": {
+      "totale": { "valore": 210.40, "confidenza": 85 },
+      "scadenza": { "valore": "2016-03-25", "confidenza": 80 },
+      "periodoRiferimento": { "valore": "gennaio-febbraio 2016", "confidenza": 80 },
+      "consumo": { "valore": "400 kWh", "confidenza": 85 },
+      "statoPagamentiPrecedenti": { "valore": null, "confidenza": null },
+      "daPagare": { "valore": false, "confidenza": 85 },
+      "comePagare": { "valore": "Bonifico bancario entro il 25 marzo 2016 (esempio)", "confidenza": 75 },
+      "contattiAssistenza": { "valore": "Servizio clienti Edison 800 031 141", "confidenza": 70 },
+      "noteImportanti": { "valore": "Fac-simile business: IVA al 22%, dati dimostrativi.", "confidenza": 100 }
+    }
+  },
+  {
+    "match": ["servizio_elettrico"],
+    "isDefault": false,
+    "analisi": {
+      "fornitore": { "valore": "Servizio Elettrico Nazionale", "confidenza": 90 },
+      "tipoFornitura": { "valore": "LUCE", "confidenza": 100 },
+      "mercato": { "valore": "MAGGIOR_TUTELA", "confidenza": 85 },
+      "cliente": {
+        "nome": { "valore": null, "confidenza": null },
+        "codiceFiscale": { "valore": null, "confidenza": null },
+        "tipo": { "valore": "DOMESTICO", "confidenza": 80 }
+      },
+      "fornitura": {
+        "podOPdr": { "valore": null, "confidenza": null },
+        "potenzaImpegnataKw": { "valore": 3, "confidenza": 70 },
+        "distributore": { "valore": "e-distribuzione", "confidenza": 70 }
+      },
+      "fattura": {
+        "numero": { "valore": null, "confidenza": null },
+        "periodoInizio": { "valore": "2021-08", "confidenza": 70 },
+        "periodoFine": { "valore": "2021-09", "confidenza": 70 },
+        "tipo": { "valore": "ORDINARIA", "confidenza": 80 },
+        "scadenzaPagamento": { "valore": null, "confidenza": null },
+        "metodoPagamento": { "valore": null, "confidenza": null }
+      },
+      "offerta": {
+        "nome": { "valore": "Servizio di Maggior Tutela", "confidenza": 80 },
+        "tipoPrezzo": { "valore": null, "confidenza": null }
+      },
+      "consumi": {
+        "periodoKwhOSmc": { "valore": null, "confidenza": null },
+        "unita": { "valore": "kWh", "confidenza": 80 },
+        "tipoLettura": { "valore": null, "confidenza": null }
+      },
+      "importi": {
+        "canoneRai": { "valore": null, "confidenza": null },
+        "totaleBolletta": { "valore": null, "confidenza": null },
+        "bonusSconti": [
+          { "descrizione": { "valore": "Sconto riconosciuto", "confidenza": 70 }, "importo": { "valore": -1.00, "confidenza": 70 } }
+        ],
+        "totaleDaPagare": { "valore": null, "confidenza": null }
+      },
+      "codiciIdentificativi": {
+        "pod": { "valore": null, "confidenza": null },
+        "pdr": { "valore": null, "confidenza": null }
+      },
+      "statoPagamentiPrecedenti": { "valore": null, "confidenza": null },
+      "contattiAssistenza": { "valore": null, "confidenza": null },
+      "note": { "valore": "Fac-simile in Maggior Tutela con importi segnaposto. (Dato mock)", "confidenza": 100 }
+    },
+    "spiegazione": "# La tua bolletta LUCE — Servizio Elettrico Nazionale (esempio)\n\n**Attenzione: questa è una bolletta di esempio (fac-simile), non una vera bolletta da pagare.** Molti dati sono dei segnaposto.\n\n## Che contratto hai\nEnergia elettrica in «Maggior Tutela»: significa che il prezzo è quello regolato dallo Stato, non scelto da te.\n\n## Come si paga\nNell'esempio il metodo di pagamento non è indicato: su una bolletta vera lo trovi in prima pagina.\n\n## Quanto consumi\nNell'esempio il consumo non è leggibile.\n\n## Quanto devi pagare\nL'importo non è indicato (valori segnaposto). È presente un piccolo sconto di 1,00 €.\n\n## Cose a cui fare attenzione\nÈ un fac-simile: nessun importo reale da pagare.\n\n## Confidenza letture\n- Fornitore: Servizio Elettrico Nazionale (90%)\n- Totale: non indicato\n- Consumo: non indicato\n\nSu una bolletta vera, chiama il numero verde del fornitore per i dettagli.",
+    "informazioniPrincipali": {
+      "totale": { "valore": null, "confidenza": null },
+      "scadenza": { "valore": null, "confidenza": null },
+      "periodoRiferimento": { "valore": "agosto-settembre 2021", "confidenza": 70 },
+      "consumo": { "valore": null, "confidenza": null },
+      "statoPagamentiPrecedenti": { "valore": null, "confidenza": null },
+      "daPagare": { "valore": false, "confidenza": 80 },
+      "comePagare": { "valore": null, "confidenza": null },
+      "contattiAssistenza": { "valore": null, "confidenza": null },
+      "noteImportanti": { "valore": "Fac-simile in Maggior Tutela: importi segnaposto, nulla da pagare.", "confidenza": 100 }
+    }
+  },
+  {
+    "match": ["fotovoltaic"],
+    "isDefault": false,
+    "analisi": {
+      "fornitore": { "valore": null, "confidenza": null },
+      "tipoFornitura": { "valore": "LUCE", "confidenza": 90 },
+      "mercato": { "valore": null, "confidenza": null },
+      "cliente": {
+        "nome": { "valore": null, "confidenza": null },
+        "codiceFiscale": { "valore": null, "confidenza": null },
+        "tipo": { "valore": "DOMESTICO", "confidenza": 70 }
+      },
+      "fornitura": {
+        "podOPdr": { "valore": null, "confidenza": null },
+        "potenzaImpegnataKw": { "valore": null, "confidenza": null },
+        "distributore": { "valore": null, "confidenza": null }
+      },
+      "fattura": {
+        "numero": { "valore": null, "confidenza": null },
+        "periodoInizio": { "valore": "2022-02", "confidenza": 90 },
+        "periodoFine": { "valore": "2022-03", "confidenza": 90 },
+        "tipo": { "valore": "ORDINARIA", "confidenza": 90 },
+        "scadenzaPagamento": { "valore": "2022-04-27", "confidenza": 90 },
+        "metodoPagamento": { "valore": null, "confidenza": null }
+      },
+      "offerta": {
+        "nome": { "valore": null, "confidenza": null },
+        "tipoPrezzo": { "valore": null, "confidenza": null }
+      },
+      "consumi": {
+        "periodoKwhOSmc": { "valore": null, "confidenza": null },
+        "unita": { "valore": "kWh", "confidenza": 90 },
+        "tipoLettura": { "valore": null, "confidenza": null }
+      },
+      "importi": {
+        "canoneRai": { "valore": 18.00, "confidenza": 90 },
+        "totaleBolletta": { "valore": 123.98, "confidenza": 90 },
+        "bonusSconti": [],
+        "totaleDaPagare": { "valore": 141.98, "confidenza": 90 }
+      },
+      "codiciIdentificativi": {
+        "pod": { "valore": null, "confidenza": null },
+        "pdr": { "valore": null, "confidenza": null }
+      },
+      "statoPagamentiPrecedenti": { "valore": null, "confidenza": null },
+      "contattiAssistenza": { "valore": null, "confidenza": null },
+      "note": { "valore": "Ritaglio con importi reali ma anagrafica e fornitore oscurati. (Dato mock)", "confidenza": 100 }
+    },
+    "spiegazione": "# La tua bolletta LUCE — febbraio-marzo 2022\n\n**In due parole:** una bolletta della luce di 141,98 €, da pagare entro il 27 aprile 2022. Il fornitore non è identificabile dal documento.\n\n## Che contratto hai\nÈ una fornitura di energia elettrica, ma il nome della società non si legge (parte oscurata del documento).\n\n## Come si paga\nIl metodo di pagamento non è indicato: controlla in prima pagina o chiama il fornitore.\n\n## Quanto consumi\nIl consumo esatto non è leggibile in questo ritaglio.\n\n## Quanto devi pagare\n**Totale da pagare: 141,98 €**, incluso il canone TV di 18,00 €.\n\n## Cose a cui fare attenzione\nFornitore e intestatario non identificabili: verifica che la bolletta sia davvero tua prima di pagare.\n\n## Confidenza letture\n- Totale: 141,98 € (90%)\n- Scadenza: 27 aprile 2022 (90%)\n- Fornitore: non si legge\n\nSe hai dubbi, non pagare finché non hai verificato l'intestatario.",
+    "informazioniPrincipali": {
+      "totale": { "valore": 141.98, "confidenza": 90 },
+      "scadenza": { "valore": "2022-04-27", "confidenza": 90 },
+      "periodoRiferimento": { "valore": "febbraio-marzo 2022", "confidenza": 90 },
+      "consumo": { "valore": null, "confidenza": null },
+      "statoPagamentiPrecedenti": { "valore": null, "confidenza": null },
+      "daPagare": { "valore": true, "confidenza": 90 },
+      "comePagare": { "valore": null, "confidenza": null },
+      "contattiAssistenza": { "valore": null, "confidenza": null },
+      "noteImportanti": { "valore": "Fornitore e intestatario non identificabili: verifica che la bolletta sia tua.", "confidenza": 90 }
+    }
+  },
+  {
+    "match": ["facsimile-bolletta-gas", "1697191261"],
+    "isDefault": false,
+    "analisi": {
+      "fornitore": { "valore": "Sorgenia", "confidenza": 90 },
+      "tipoFornitura": { "valore": "GAS", "confidenza": 100 },
+      "mercato": { "valore": "LIBERO", "confidenza": 90 },
+      "cliente": {
+        "nome": { "valore": "Mario Rossi", "confidenza": 85 },
+        "codiceFiscale": { "valore": "ABCDEF12G34F123Q", "confidenza": 85 },
+        "tipo": { "valore": "DOMESTICO", "confidenza": 90 }
+      },
+      "fornitura": {
+        "podOPdr": { "valore": "01234567891000", "confidenza": 90 },
+        "potenzaImpegnataKw": { "valore": null, "confidenza": null },
+        "distributore": { "valore": null, "confidenza": null }
+      },
+      "fattura": {
+        "numero": { "valore": "V01234567890", "confidenza": 85 },
+        "periodoInizio": { "valore": "2016-08", "confidenza": 90 },
+        "periodoFine": { "valore": "2016-09", "confidenza": 90 },
+        "tipo": { "valore": "ORDINARIA", "confidenza": 80 },
+        "scadenzaPagamento": { "valore": "2016-11-22", "confidenza": 85 },
+        "metodoPagamento": { "valore": "Bollettino postale", "confidenza": 85 }
+      },
+      "offerta": {
+        "nome": { "valore": "Soluzione Gas Casa", "confidenza": 90 },
+        "tipoPrezzo": { "valore": null, "confidenza": null }
+      },
+      "consumi": {
+        "periodoKwhOSmc": { "valore": 23.4, "confidenza": 90 },
+        "unita": { "valore": "Smc", "confidenza": 90 },
+        "tipoLettura": { "valore": "REALE", "confidenza": 90 }
+      },
+      "importi": {
+        "canoneRai": { "valore": null, "confidenza": null },
+        "totaleBolletta": { "valore": 38.89, "confidenza": 90 },
+        "bonusSconti": [],
+        "totaleDaPagare": { "valore": 38.89, "confidenza": 90 }
+      },
+      "codiciIdentificativi": {
+        "pod": { "valore": null, "confidenza": null },
+        "pdr": { "valore": "01234567891000", "confidenza": 90 }
+      },
+      "statoPagamentiPrecedenti": { "valore": null, "confidenza": null },
+      "contattiAssistenza": { "valore": "Numero verde 800 000 000 (esempio)", "confidenza": 60 },
+      "note": { "valore": "Fac-simile dimostrativo con dati fittizi. (Dato mock)", "confidenza": 100 }
+    },
+    "spiegazione": "# La tua bolletta GAS di Sorgenia — agosto-settembre 2016\n\n**Attenzione: questa è una bolletta di esempio (fac-simile), non una vera bolletta da pagare.**\n\n## Che contratto hai\nFornitura di gas con Sorgenia, sul mercato libero. Prodotto «Soluzione Gas Casa».\n\n## Come si paga\nNell'esempio si paga con bollettino postale entro il 22 novembre 2016.\n\n## Quanto consumi\n23,4 Smc (l'unità con cui si misura il gas), letto sul contatore.\n\n## Quanto devi pagare\nNell'esempio il totale è **38,89 €**.\n\n## Cose a cui fare attenzione\nÈ un fac-simile: dati fittizi, nulla da pagare davvero.\n\n## Confidenza letture\n- Fornitore: Sorgenia (90%)\n- Codice del contatore (PDR): 01234567891000 (90%)\n- Totale: 38,89 € (90%)\n\nSu una bolletta vera, chiama il numero verde del fornitore per i dettagli.",
+    "informazioniPrincipali": {
+      "totale": { "valore": 38.89, "confidenza": 90 },
+      "scadenza": { "valore": "2016-11-22", "confidenza": 85 },
+      "periodoRiferimento": { "valore": "agosto-settembre 2016", "confidenza": 90 },
+      "consumo": { "valore": "23,4 Smc", "confidenza": 90 },
+      "statoPagamentiPrecedenti": { "valore": null, "confidenza": null },
+      "daPagare": { "valore": false, "confidenza": 90 },
+      "comePagare": { "valore": "Bollettino postale entro il 22 novembre 2016 (esempio)", "confidenza": 85 },
+      "contattiAssistenza": { "valore": "Numero verde 800 000 000 (esempio)", "confidenza": 60 },
+      "noteImportanti": { "valore": "Fac-simile dimostrativo: dati fittizi, nulla da pagare davvero.", "confidenza": 100 }
+    }
+  },
+  {
+    "match": ["guida_gas", "gas_edison"],
+    "isDefault": false,
+    "analisi": {
+      "fornitore": { "valore": "Edison Energia", "confidenza": 90 },
+      "tipoFornitura": { "valore": "GAS", "confidenza": 100 },
+      "mercato": { "valore": "LIBERO", "confidenza": 85 },
+      "cliente": {
+        "nome": { "valore": "Mario Rossi", "confidenza": 80 },
+        "codiceFiscale": { "valore": "MRIORSS27F76L205O", "confidenza": 60 },
+        "tipo": { "valore": "DOMESTICO", "confidenza": 90 }
+      },
+      "fornitura": {
+        "podOPdr": { "valore": null, "confidenza": null },
+        "potenzaImpegnataKw": { "valore": null, "confidenza": null },
+        "distributore": { "valore": null, "confidenza": null }
+      },
+      "fattura": {
+        "numero": { "valore": null, "confidenza": null },
+        "periodoInizio": { "valore": "2016-09", "confidenza": 80 },
+        "periodoFine": { "valore": "2016-10", "confidenza": 80 },
+        "tipo": { "valore": "ORDINARIA", "confidenza": 75 },
+        "scadenzaPagamento": { "valore": "2016-11-17", "confidenza": 75 },
+        "metodoPagamento": { "valore": null, "confidenza": null }
+      },
+      "offerta": {
+        "nome": { "valore": "InGas", "confidenza": 85 },
+        "tipoPrezzo": { "valore": "VARIABILE", "confidenza": 60 }
+      },
+      "consumi": {
+        "periodoKwhOSmc": { "valore": 11.81, "confidenza": 60 },
+        "unita": { "valore": "Smc", "confidenza": 85 },
+        "tipoLettura": { "valore": "STIMATA", "confidenza": 70 }
+      },
+      "importi": {
+        "canoneRai": { "valore": null, "confidenza": null },
+        "totaleBolletta": { "valore": null, "confidenza": null },
+        "bonusSconti": [],
+        "totaleDaPagare": { "valore": null, "confidenza": null }
+      },
+      "codiciIdentificativi": {
+        "pod": { "valore": null, "confidenza": null },
+        "pdr": { "valore": null, "confidenza": null }
+      },
+      "statoPagamentiPrecedenti": { "valore": null, "confidenza": null },
+      "contattiAssistenza": { "valore": "Servizio clienti Edison 800 031 141", "confidenza": 65 },
+      "note": { "valore": "Fac-simile gas Edison con molti importi segnaposto. (Dato mock)", "confidenza": 100 }
+    },
+    "spiegazione": "# La tua bolletta GAS di Edison Energia — settembre-ottobre 2016\n\n**Attenzione: questa è una bolletta di esempio (fac-simile), non una vera bolletta da pagare.** Molti importi sono segnaposto.\n\n## Che contratto hai\nFornitura di gas con Edison, sul mercato libero. Offerta «InGas».\n\n## Come si paga\nNell'esempio il metodo di pagamento non è indicato.\n\n## Quanto consumi\nCirca 11,81 Smc (l'unità con cui si misura il gas), consumo stimato (il numero non è nitidissimo).\n\n## Quanto devi pagare\nL'importo totale non è indicato (valori segnaposto).\n\n## Cose a cui fare attenzione\nÈ un fac-simile: nessun importo reale da pagare; il consumo è stimato.\n\n## Confidenza letture\n- Fornitore: Edison Energia (90%)\n- Consumo: 11,81 Smc (60%)\n- Totale: non indicato\n\nSu una bolletta vera, chiama il numero verde del fornitore per i dettagli.",
+    "informazioniPrincipali": {
+      "totale": { "valore": null, "confidenza": null },
+      "scadenza": { "valore": "2016-11-17", "confidenza": 75 },
+      "periodoRiferimento": { "valore": "settembre-ottobre 2016", "confidenza": 80 },
+      "consumo": { "valore": "11,81 Smc", "confidenza": 60 },
+      "statoPagamentiPrecedenti": { "valore": null, "confidenza": null },
+      "daPagare": { "valore": false, "confidenza": 75 },
+      "comePagare": { "valore": null, "confidenza": null },
+      "contattiAssistenza": { "valore": "Servizio clienti Edison 800 031 141", "confidenza": 65 },
+      "noteImportanti": { "valore": "Fac-simile con importi segnaposto; consumo stimato.", "confidenza": 100 }
+    }
+  },
+  {
+    "match": [],
+    "isDefault": true,
+    "analisi": {
+      "fornitore": { "valore": "Fornitore Esempio", "confidenza": 80 },
+      "tipoFornitura": { "valore": "LUCE", "confidenza": 80 },
+      "mercato": { "valore": "LIBERO", "confidenza": 80 },
+      "cliente": {
+        "nome": { "valore": "Cliente Esempio", "confidenza": 80 },
+        "codiceFiscale": { "valore": null, "confidenza": null },
+        "tipo": { "valore": "DOMESTICO", "confidenza": 80 }
+      },
+      "fornitura": {
+        "podOPdr": { "valore": "IT001E00000000", "confidenza": 80 },
+        "potenzaImpegnataKw": { "valore": 3, "confidenza": 80 },
+        "distributore": { "valore": "E-Distribuzione", "confidenza": 80 }
+      },
+      "fattura": {
+        "numero": { "valore": null, "confidenza": null },
+        "periodoInizio": { "valore": "2025-01", "confidenza": 80 },
+        "periodoFine": { "valore": "2025-02", "confidenza": 80 },
+        "tipo": { "valore": "ORDINARIA", "confidenza": 80 },
+        "scadenzaPagamento": { "valore": "2025-03-15", "confidenza": 80 },
+        "metodoPagamento": { "valore": "Addebito su conto corrente", "confidenza": 80 }
+      },
+      "offerta": {
+        "nome": { "valore": "Offerta Esempio", "confidenza": 80 },
+        "tipoPrezzo": { "valore": "FISSO", "confidenza": 80 }
+      },
+      "consumi": {
+        "periodoKwhOSmc": { "valore": 250, "confidenza": 80 },
+        "unita": { "valore": "kWh", "confidenza": 80 },
+        "tipoLettura": { "valore": "STIMATA", "confidenza": 80 }
+      },
+      "importi": {
+        "canoneRai": { "valore": null, "confidenza": null },
+        "totaleBolletta": { "valore": 95.00, "confidenza": 80 },
+        "bonusSconti": [],
+        "totaleDaPagare": { "valore": 95.00, "confidenza": 80 }
+      },
+      "codiciIdentificativi": {
+        "pod": { "valore": "IT001E00000000", "confidenza": 80 },
+        "pdr": { "valore": null, "confidenza": null }
+      },
+      "statoPagamentiPrecedenti": { "valore": null, "confidenza": null },
+      "contattiAssistenza": { "valore": "Numero verde 800 000 000", "confidenza": 80 },
+      "note": { "valore": "Caso dimostrativo generico (mock): file non riconosciuto tra i campioni.", "confidenza": 100 }
+    },
+    "spiegazione": "# La tua bolletta — esempio dimostrativo\n\n**Nota:** non ho riconosciuto questo file tra le bollette di esempio, quindi ti mostro un caso dimostrativo per far vedere come appare la spiegazione.\n\n## Che contratto hai\nEsempio di fornitura luce sul mercato libero.\n\n## Come si paga\nEsempio: addebito automatico sul conto corrente — non dovresti fare nulla, l'importo viene prelevato alla scadenza.\n\n## Quanto consumi\nEsempio: 250 kWh nel periodo (lettura stimata).\n\n## Quanto devi pagare\nEsempio: **Totale da pagare 95,00 €.**\n\n## Cose a cui fare attenzione\nQuesto è solo un esempio dimostrativo (mock): nessuna bolletta reale è stata analizzata.\n\n## Confidenza letture\n- Dati di esempio, non letti da una bolletta reale.",
+    "informazioniPrincipali": {
+      "totale": { "valore": 95.00, "confidenza": 80 },
+      "scadenza": { "valore": "2025-03-15", "confidenza": 80 },
+      "periodoRiferimento": { "valore": "gennaio-febbraio 2025", "confidenza": 80 },
+      "consumo": { "valore": "250 kWh", "confidenza": 80 },
+      "statoPagamentiPrecedenti": { "valore": null, "confidenza": null },
+      "daPagare": { "valore": true, "confidenza": 80 },
+      "comePagare": { "valore": "Addebito automatico sul conto corrente", "confidenza": 80 },
+      "contattiAssistenza": { "valore": "Numero verde 800 000 000", "confidenza": 80 },
+      "noteImportanti": { "valore": "Caso dimostrativo generico (mock): file non riconosciuto.", "confidenza": 100 }
+    }
+  }
+]

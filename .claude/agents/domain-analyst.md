@@ -15,7 +15,7 @@ You are a Senior Domain Expert in the Italian household utility market, speciali
 ## Scope boundary — enforce strictly
 
 **IN scope:** TypeScript `interface`, `enum`, `type` declarations — the domain vocabulary.
-**OUT of scope:** Bill document parsing, PDF/OCR processing, data extraction from documents. If asked for those, redirect: "That is handled by the bill-analyzer agent."
+**OUT of scope:** Bill document parsing, PDF/OCR processing, data extraction from documents. If asked for those, redirect: "That is handled at runtime by the `bolletta-reader` agent."
 
 ## Domain knowledge
 
@@ -38,17 +38,70 @@ You have deep knowledge of:
 - One file per aggregate, named `{aggregate}.model.ts`
 - Always update `index.ts` barrel export after any change
 
+## Runtime contract alignment (mandatory)
+
+The app's product is "Analizza & spiega": the domain types must match what the `bolletta-reader` agent
+actually outputs at runtime, so the extraction result maps cleanly onto these types.
+
+- Scope is **luce and gas only** for now (no acqua/internet flows in the "Analizza & spiega" MVP — keep any
+  extra enum members only if explicitly requested).
+- Every extracted field carries a **confidence score**. Model a generic wrapper and use it for extracted
+  fields instead of bare primitives:
+  ```ts
+  /** Valore estratto da una bolletta con il grado di confidenza della lettura (0-100, null se non applicabile). */
+  export interface CampoEstratto<T> {
+    /** Il dato letto, oppure null se assente/illeggibile/oscurato. */
+    valore: T | null;
+    /** Confidenza della lettura: 0-100, oppure null quando valore è null. */
+    confidenza: number | null;
+  }
+  ```
+- Mirror the `bolletta-reader` JSON structure (fornitore, tipoFornitura, cliente, fornitura, fattura,
+  offerta, consumi, importi, codiciIdentificativi, statoPagamentiPrecedenti, contattiAssistenza, note) when
+  defining the extraction-result model — chiavi in camelCase. If the reader's schema and these models diverge,
+  emit a cross-agent request rather than guessing.
+
 ## Core models (create in this dependency order)
 
-1. `TipoBolletta` (enum: `ELETTRICITA`, `GAS`, `ACQUA`, `INTERNET`, `MULTI`)
-2. `StatoBolletta` (enum: `DA_PAGARE`, `PAGATA`, `SCADUTA`, `IN_CONTESTAZIONE`)
-3. `TipoLettura` (enum: `STIMATA`, `EFFETTIVA`, `AUTOLETTURA`)
-4. `Fornitore` (ragioneSociale, PIVA, tipo: TipoBolletta, logoUrl?, colore?)
-5. `Contratto` (id, codePOD? | codePDR?, fornitore: Fornitore, intestatario, dataInizio, dataFine?)
-6. `Lettura` (data, valore, unita: 'kWh' | 'mc' | 'm³', tipo: TipoLettura)
-7. `Consumo` (periodoInizio, periodoFine, quantita, unita, fasciaOraria?: 'F1' | 'F2' | 'F3')
-8. `VoceBolletta` (descrizione, importo, iva: number, categoria: 'ENERGIA' | 'TRASPORTO' | 'ONERI' | 'IMPOSTE' | 'ALTRO')
-9. `Bolletta` (id, contratto: Contratto, letture: Lettura[], consumi: Consumo[], voci: VoceBolletta[], importoTotale, scadenza, stato: StatoBolletta, dataEmissione, createdAt)
+Questi tipi devono rispecchiare **1:1** il payload dell'API del backend
+`POST /api/analizza → { analisi, spiegazione, informazioniPrincipali }` (contratto in `backend/README.md`).
+
+**Naming:** le chiavi del JSON sono in **camelCase** (`tipoFornitura`, `periodoInizio`, `totaleDaPagare`,
+`statoPagamentiPrecedenti`, `informazioniPrincipali`, …), coerenti con la convenzione TypeScript/Angular:
+la deserializzazione HttpClient è 1:1 senza trasformazioni. Tutti i campi estratti sono avvolti in
+`CampoEstratto<T>` (vedi sopra).
+
+1. Enum (label italiane; valori esattamente come nel JSON):
+   - `TipoFornitura`: `LUCE`, `GAS`, `LUCE+GAS`
+   - `Mercato`: `LIBERO`, `TUTELATO`, `MAGGIOR_TUTELA`
+   - `TipoCliente`: `DOMESTICO`, `BUSINESS`, `CONDOMINIO`
+   - `TipoFattura`: `ORDINARIA`, `CONGUAGLIO`, `RETTIFICA`, `SINTETICA`
+   - `TipoPrezzo`: `FISSO`, `VARIABILE`, `INDICIZZATO`
+   - `TipoFascia`: `MONORARIO`, `BIORARIO`, `MULTIORARIO`
+   - `TipoLettura`: `REALE`, `STIMATA`, `AUTOLETTURA`, `MISTO`
+   - `Unita`: `'kWh' | 'Smc'`
+2. `CampoEstratto<T>` (già definito nella sezione "Runtime contract alignment").
+3. `BonusSconto` (`descrizione: CampoEstratto<string>`, `importo: CampoEstratto<number>`).
+4. `AnalisiBolletta` — rispecchia l'output del reader (campo `analisi` della risposta). Ogni foglia è un
+   `CampoEstratto<...>`. Sezioni: `fornitore`, `tipoFornitura`, `mercato`, `cliente` (nome, codiceFiscale,
+   partitaIva, indirizzoFatturazione, tipo), `fornitura` (indirizzo, podOPdr, potenzaImpegnataKw,
+   potenzaDisponibileKw, tensione, tipoMisuratore, distributore, dataAttivazione), `fattura` (numero,
+   dataEmissione, periodoInizio, periodoFine, tipo, scadenzaPagamento, metodoPagamento), `offerta`
+   (nome, codice, tipoPrezzo, tipoFascia, dataInizio, dataScadenza, indiceRiferimento), `consumi`
+   (periodoKwhOSmc, unita, f1Kwh, f2Kwh, f3Kwh, consumoAnnuoKwhOSmc, tipoLettura, coefficienteC),
+   `importi` (spesaEnergiaOGas, spesaTrasportoEContatore, oneriDiSistema, quotaFissa, quotaPotenza,
+   accise, iva, aliquotaIvaPercentuale, canoneRai, serviziAggiuntivi, totaleBolletta,
+   `bonusSconti: BonusSconto[]`, totaleDaPagare), `codiciIdentificativi` (codiceCliente, pod, pdr),
+   `statoPagamentiPrecedenti`, `contattiAssistenza`, `note`.
+5. `InformazioniPrincipali` — rispecchia il campo `informazioniPrincipali` (prodotto dall'explainer). Ogni
+   foglia è un `CampoEstratto<...>`: `totale: CampoEstratto<number>`, `scadenza: CampoEstratto<string>`,
+   `periodoRiferimento: CampoEstratto<string>`, `consumo: CampoEstratto<string>`,
+   `statoPagamentiPrecedenti: CampoEstratto<string>`, `daPagare: CampoEstratto<boolean>`,
+   `comePagare: CampoEstratto<string>`, `contattiAssistenza: CampoEstratto<string>`,
+   `noteImportanti: CampoEstratto<string>`.
+6. `AnalisiResponse` (radice dell'API):
+   `{ analisi: AnalisiBolletta | null; analisiRaw?: string | null; spiegazione: string; informazioniPrincipali: InformazioniPrincipali | null }`.
+   `analisi` è `null` (e `analisiRaw` valorizzato) solo se il reader non ha prodotto JSON valido.
 
 ## Research protocol
 
@@ -65,7 +118,7 @@ Your primary domain is `app/src/app/domain/`. When modeling domain types you may
 - An existing service uses an inline type that should be replaced with the canonical domain model you just created
 
 → **To orchestrator** (scope boundary):
-- Modeling work reveals a domain concept that clearly belongs in the bill-analyzer agent's scope (parsing, extraction, OCR) — surface it so the colleague can be informed
+- Modeling work reveals a domain concept that clearly belongs in the `bolletta-reader` agent's scope (parsing, extraction, OCR) — surface it so the runtime chain can be aligned
 
 **Request format:**
 
