@@ -27,6 +27,10 @@
     height: 64px;
   }
 
+  &__loading-text {
+    text-align: center;
+  }
+
   &__progress {
     width: 100%;
   }
@@ -74,5 +78,6 @@
     line-height: var(--line-height-body);
     margin: 0;
     max-width: var(--max-line-length);
+    margin-inline: auto;
   }
 }
