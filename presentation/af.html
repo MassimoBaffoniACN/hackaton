@@ -1,0 +1,1299 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Analisi Funzionale — BollettaChiara</title>
+  <style>
+    :root {
+      --blue-dark:   #1e3a5f;
+      --blue-mid:    #1e6091;
+      --blue-light:  #2980b9;
+      --accent:      #e67e22;
+      --green:       #27ae60;
+      --red:         #c0392b;
+      --yellow:      #f39c12;
+      --bg:          #f8fafc;
+      --surface:     #ffffff;
+      --border:      #dde3ea;
+      --text:        #1a2332;
+      --muted:       #5a6a7e;
+      --code-bg:     #f0f4f8;
+      --tag-blue:    #dbeafe;
+      --tag-blue-t:  #1d4ed8;
+      --tag-green:   #dcfce7;
+      --tag-green-t: #166534;
+      --tag-red:     #fee2e2;
+      --tag-red-t:   #991b1b;
+      --tag-orange:  #ffedd5;
+      --tag-orange-t:#9a3412;
+      --tag-purple:  #ede9fe;
+      --tag-purple-t:#5b21b6;
+      --tag-teal:    #ccfbf1;
+      --tag-teal-t:  #115e59;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      font-size: 15px;
+      line-height: 1.65;
+      color: var(--text);
+      background: var(--bg);
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue-mid) 60%, var(--blue-light) 100%);
+      color: #fff;
+      padding: 40px 48px 32px;
+    }
+    .doc-header .badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.35);
+      border-radius: 20px;
+      padding: 3px 14px;
+      font-size: 12px;
+      letter-spacing: .6px;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    .doc-header h1 { font-size: 2.4rem; font-weight: 700; letter-spacing: -.5px; }
+    .doc-header .subtitle { font-size: 1.1rem; opacity: .88; margin-top: 6px; }
+    .doc-header .meta {
+      display: flex; flex-wrap: wrap; gap: 24px;
+      margin-top: 20px;
+      font-size: 13px; opacity: .8;
+    }
+    .doc-header .meta span::before { content: '▸ '; opacity: .6; }
+
+    /* ── Table of Contents ── */
+    .toc-bar {
+      background: var(--blue-dark);
+      color: #b8cfea;
+      padding: 10px 48px;
+      display: flex; flex-wrap: wrap; gap: 6px 22px;
+      font-size: 12.5px;
+    }
+    .toc-bar a { color: #b8cfea; text-decoration: none; }
+    .toc-bar a:hover { color: #fff; text-decoration: underline; }
+
+    /* ── Layout ── */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 48px 80px;
+    }
+
+    /* ── Sections ── */
+    section { margin-bottom: 52px; }
+    .section-number {
+      display: inline-flex;
+      align-items: center; justify-content: center;
+      width: 28px; height: 28px;
+      background: var(--blue-mid);
+      color: #fff;
+      border-radius: 50%;
+      font-size: 13px; font-weight: 700;
+      margin-right: 10px;
+      flex-shrink: 0;
+    }
+    h2 {
+      font-size: 1.45rem; font-weight: 700;
+      color: var(--blue-dark);
+      display: flex; align-items: center;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--border);
+      margin-bottom: 22px;
+    }
+    h3 { font-size: 1.05rem; font-weight: 700; color: var(--blue-mid); margin: 20px 0 10px; }
+    h4 { font-size: .95rem; font-weight: 600; color: var(--text); margin: 14px 0 6px; }
+    p { margin-bottom: 10px; }
+    ul, ol { padding-left: 22px; margin-bottom: 10px; }
+    li { margin-bottom: 5px; }
+
+    /* ── Callout boxes ── */
+    .callout {
+      border-left: 4px solid;
+      padding: 12px 18px;
+      border-radius: 0 8px 8px 0;
+      margin: 16px 0;
+      font-size: 14px;
+    }
+    .callout-blue  { border-color: var(--blue-light); background: #eff6ff; }
+    .callout-green { border-color: var(--green);      background: #f0fdf4; }
+    .callout-orange{ border-color: var(--accent);     background: #fff7ed; }
+    .callout-red   { border-color: var(--red);        background: #fef2f2; }
+
+    /* ── Tags ── */
+    .tag {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 11.5px;
+      font-weight: 600;
+      letter-spacing: .3px;
+    }
+    .tag-blue   { background: var(--tag-blue);   color: var(--tag-blue-t); }
+    .tag-green  { background: var(--tag-green);  color: var(--tag-green-t); }
+    .tag-red    { background: var(--tag-red);    color: var(--tag-red-t); }
+    .tag-orange { background: var(--tag-orange); color: var(--tag-orange-t); }
+    .tag-purple { background: var(--tag-purple); color: var(--tag-purple-t); }
+    .tag-teal   { background: var(--tag-teal);   color: var(--tag-teal-t); }
+
+    /* ── Tables ── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 14px 0 20px;
+      font-size: 13.5px;
+    }
+    thead th {
+      background: var(--blue-dark);
+      color: #fff;
+      font-weight: 600;
+      padding: 10px 14px;
+      text-align: left;
+    }
+    tbody tr { border-bottom: 1px solid var(--border); }
+    tbody tr:hover { background: #f1f5f9; }
+    tbody td { padding: 9px 14px; vertical-align: top; }
+
+    /* ── Code ── */
+    code {
+      font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1px 6px;
+      font-size: 12.5px;
+      color: #b91c1c;
+    }
+    pre {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px 20px;
+      overflow-x: auto;
+      font-size: 12.5px;
+      line-height: 1.7;
+      margin: 12px 0;
+    }
+    pre code { background: none; border: none; padding: 0; color: #1a2332; }
+    .kw  { color: #7c3aed; font-weight: 600; }
+    .str { color: #166534; }
+    .cm  { color: #64748b; font-style: italic; }
+
+    /* ── Persona cards ── */
+    .persona-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+      margin: 20px 0;
+    }
+    .persona-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      border-top: 4px solid;
+    }
+    .persona-card .p-avatar {
+      font-size: 2.4rem;
+      margin-bottom: 10px;
+    }
+    .persona-card .p-name { font-size: 1.1rem; font-weight: 700; color: var(--blue-dark); }
+    .persona-card .p-age  { font-size: 12px; color: var(--muted); margin-bottom: 10px; }
+    .persona-card .p-scenario { font-size: 13px; font-style: italic; margin-bottom: 12px; color: var(--muted); border-left: 3px solid var(--border); padding-left: 10px; }
+    .persona-card .p-needs { font-size: 13px; }
+    .persona-card .p-needs li { margin-bottom: 4px; }
+
+    /* ── Journey flow ── */
+    .journey {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0;
+      margin: 20px 0;
+      position: relative;
+    }
+    .step-box {
+      flex: 1 1 160px;
+      min-width: 140px;
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 14px;
+      text-align: center;
+      position: relative;
+    }
+    .step-box + .step-box::before {
+      content: '→';
+      position: absolute;
+      left: -18px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--blue-light);
+      font-size: 1.2rem;
+    }
+    .step-box .step-num {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 26px; height: 26px;
+      background: var(--blue-mid); color: #fff;
+      border-radius: 50%; font-size: 13px; font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .step-box .step-title { font-weight: 700; font-size: 13px; color: var(--blue-dark); margin-bottom: 4px; }
+    .step-box .step-desc  { font-size: 11.5px; color: var(--muted); }
+
+    /* ── Architecture diagram ── */
+    .arch-box {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px 24px;
+      font-family: monospace;
+      font-size: 13px;
+      line-height: 1.9;
+      overflow-x: auto;
+    }
+    .arch-layer {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 6px 0;
+    }
+    .arch-label {
+      width: 110px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      flex-shrink: 0;
+    }
+    .arch-block {
+      display: inline-block;
+      background: var(--blue-dark);
+      color: #fff;
+      border-radius: 6px;
+      padding: 4px 14px;
+      font-size: 12.5px;
+      font-family: 'Segoe UI', sans-serif;
+      margin-right: 8px;
+    }
+    .arch-block.light { background: var(--blue-light); }
+    .arch-block.green { background: var(--green); }
+    .arch-block.orange { background: var(--accent); }
+    .arch-block.grey  { background: #64748b; }
+
+    /* ── Timeline ── */
+    .timeline {
+      position: relative;
+      padding-left: 28px;
+      margin: 20px 0;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 8px; top: 0; bottom: 0;
+      width: 3px;
+      background: var(--border);
+      border-radius: 2px;
+    }
+    .tl-item {
+      position: relative;
+      margin-bottom: 20px;
+    }
+    .tl-item::before {
+      content: '';
+      position: absolute;
+      left: -23px; top: 4px;
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      background: var(--blue-mid);
+      border: 2px solid #fff;
+      box-shadow: 0 0 0 2px var(--blue-mid);
+    }
+    .tl-item.done::before { background: var(--green); box-shadow: 0 0 0 2px var(--green); }
+    .tl-item.crit::before { background: var(--red);   box-shadow: 0 0 0 2px var(--red); }
+    .tl-time { font-size: 11.5px; font-weight: 700; color: var(--blue-mid); letter-spacing: .4px; }
+    .tl-title { font-weight: 700; font-size: 14px; color: var(--text); }
+    .tl-desc  { font-size: 12.5px; color: var(--muted); margin-top: 2px; }
+    .tl-tags  { margin-top: 5px; }
+
+    /* ── Checklist ── */
+    .checklist { list-style: none; padding: 0; }
+    .checklist li {
+      display: flex; align-items: flex-start; gap: 10px;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 13.5px;
+      margin-bottom: 4px;
+    }
+    .checklist li:nth-child(odd) { background: #f8fafc; }
+    .checklist li .chk {
+      width: 18px; height: 18px;
+      border: 2px solid var(--border);
+      border-radius: 4px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* ── Before/After ── */
+    .before-after {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin: 16px 0;
+    }
+    .ba-panel {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .ba-header {
+      padding: 10px 16px;
+      font-weight: 700;
+      font-size: 13px;
+      color: #fff;
+    }
+    .ba-header.before { background: var(--red); }
+    .ba-header.after  { background: var(--green); }
+    .ba-body {
+      padding: 16px;
+      font-size: 13px;
+      min-height: 120px;
+    }
+    .ba-body.before { background: #fff5f5; color: var(--muted); line-height: 1.4; }
+    .ba-body.after  { background: #f0fdf4; }
+    .amount-big { font-size: 2.5rem; font-weight: 800; color: var(--green); display: block; margin: 8px 0; }
+    .deadline-big { font-size: 1.1rem; font-weight: 700; color: var(--accent); }
+
+    /* ── Accessibility matrix ── */
+    .acc-matrix tbody tr td:first-child { font-weight: 600; }
+    .check-yes { color: var(--green); font-size: 16px; }
+    .check-no  { color: var(--muted); font-size: 16px; }
+
+    /* ── Footer ── */
+    .doc-footer {
+      background: var(--blue-dark);
+      color: rgba(255,255,255,.6);
+      font-size: 12px;
+      padding: 16px 48px;
+      text-align: center;
+    }
+    .doc-footer a { color: rgba(255,255,255,.8); }
+
+    @media (max-width: 700px) {
+      .container { padding: 24px 20px 60px; }
+      .doc-header { padding: 28px 20px 22px; }
+      .doc-header h1 { font-size: 1.8rem; }
+      .toc-bar { padding: 8px 20px; }
+      .before-after { grid-template-columns: 1fr; }
+      .step-box + .step-box::before { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════
+     HEADER
+════════════════════════════════════════════════ -->
+<header class="doc-header">
+  <div class="badge">Analisi Funzionale — v1.0</div>
+  <h1>BollettaChiara</h1>
+  <p class="subtitle">Semplificatore accessibile di bollette e documenti burocratici italiani</p>
+  <div class="meta">
+    <span>Progetto: Hackathon Accenture 2026</span>
+    <span>Data: 14 settembre 2026</span>
+    <span>Autore: Massimo Baffoni</span>
+    <span>Stato: Approvato</span>
+  </div>
+</header>
+
+<!-- ══════════════════════════════════════════════
+     TABLE OF CONTENTS
+════════════════════════════════════════════════ -->
+<nav class="toc-bar" aria-label="Indice">
+  <a href="#sec-summary">1. Executive Summary</a>
+  <a href="#sec-scope">2. Scope</a>
+  <a href="#sec-persona">3. Persona</a>
+  <a href="#sec-access">4. Accessibilità</a>
+  <a href="#sec-journey">5. User Journey</a>
+  <a href="#sec-arch">6. Architettura</a>
+  <a href="#sec-components">7. Componenti</a>
+  <a href="#sec-services">8. Servizi</a>
+  <a href="#sec-regex">9. Pattern Regex</a>
+  <a href="#sec-ux">10. UI/UX</a>
+  <a href="#sec-ai">11. AI Explainer</a>
+  <a href="#sec-timeline">12. Timeline</a>
+  <a href="#sec-acceptance">13. Accettazione</a>
+</nav>
+
+<main class="container">
+
+  <!-- ══════════════════════════════════════════
+       1. EXECUTIVE SUMMARY
+  ════════════════════════════════════════════ -->
+  <section id="sec-summary">
+    <h2><span class="section-number">1</span>Executive Summary</h2>
+
+    <div class="callout callout-blue">
+      <strong>Il problema:</strong> Le bollette italiane (Enel, Eni, INPS) sono documenti da 3-5 pagine
+      pieni di tabelle, acronimi e numeri. Per milioni di italiani — anziani, persone con disabilità
+      visive, persone con ADHD, stranieri — questi documenti sono incomprensibili. Il risultato è
+      ritardi di pagamento, errori, stress e dipendenza da famigliari o call-center.
+    </div>
+
+    <div class="callout callout-green">
+      <strong>La soluzione:</strong> <em>BollettaChiara</em> è una web app che trasforma
+      qualsiasi bolletta in una scheda semplice con 4 informazioni essenziali (importo, scadenza,
+      come pagare, cosa fare), accessibile a tutti e funzionante senza connessione dopo il caricamento.
+      Zero backend. Zero dati inviati a server. Privacy garantita.
+    </div>
+
+    <h3>Demo Before / After</h3>
+    <div class="before-after">
+      <div class="ba-panel">
+        <div class="ba-header before">✗ Prima — Bolletta originale</div>
+        <div class="ba-body before">
+          <p>Documento PDF di 3 pagine, colonne in corpo 8, acronimi POD / F1 / F2 / F3 / IVA /
+          ARERA / Accise / Quota fissa / kWh / kVA / RCA... Tabella consumi con 18 righe.
+          Importo da pagare: menzionato 4 volte in punti diversi con valori diversi.
+          Data di scadenza: presente solo nel frontespizio a piè di pagina in grassetto 9pt.</p>
+        </div>
+      </div>
+      <div class="ba-panel">
+        <div class="ba-header after">✓ Dopo — Scheda BollettaChiara</div>
+        <div class="ba-body after">
+          <p><strong>Da pagare</strong></p>
+          <span class="amount-big">€ 127,40</span>
+          <p class="deadline-big">⏰ Entro il 30 settembre 2026 (16 giorni)</p>
+          <p style="margin-top:12px">
+            <span class="tag tag-green">🏦 Bonifico</span>
+            <span class="tag tag-blue" style="margin-left:4px">📱 App Enel</span>
+            <span class="tag tag-orange" style="margin-left:4px">🏪 Tabacchi</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       2. SCOPE
+  ════════════════════════════════════════════ -->
+  <section id="sec-scope">
+    <h2><span class="section-number">2</span>Scope e Deliverable</h2>
+
+    <p>Il progetto è sviluppato in una sessione di <strong>4 ore</strong> con due step prioritizzati:</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width:80px">Step</th>
+          <th>Funzionalità</th>
+          <th>Priorità</th>
+          <th>Tempo stimato</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="tag tag-red">Step 1</span></td>
+          <td><strong>Analisi bolletta + scheda semplificata</strong><br/>
+            Upload PDF/immagine → OCR in-browser → parsing regex → display semplificato con
+            importo, scadenza, metodi di pagamento</td>
+          <td><span class="tag tag-red">MUST HAVE</span></td>
+          <td>~3 ore</td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-orange">Step 2</span></td>
+          <td><strong>"Spiegami la Bolletta" — AI Explainer</strong><br/>
+            Pulsante che invia il testo estratto a Claude API e restituisce una spiegazione
+            in italiano semplice, strutturata per sezioni</td>
+          <td><span class="tag tag-orange">NICE TO HAVE</span></td>
+          <td>~1 ora</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Stack tecnologico</h3>
+    <table>
+      <thead>
+        <tr><th>Layer</th><th>Tecnologia</th><th>Motivazione</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Framework UI</td><td><code>Angular 21</code> + <code>PrimeNG 21</code></td><td>Già scaffoldato; standalone components, signals API</td></tr>
+        <tr><td>OCR (immagini)</td><td><code>Tesseract.js 5</code></td><td>OCR completamente in-browser, nessun server, privacy</td></tr>
+        <tr><td>PDF parsing</td><td><code>PDF.js</code></td><td>Estrae testo da PDF nativo senza OCR (più veloce)</td></tr>
+        <tr><td>AI Explainer</td><td><code>Anthropic Claude API</code> (Step 2)</td><td>Comprensione semantica + italiano semplice</td></tr>
+        <tr><td>Build</td><td><code>Angular CLI</code> + Vite</td><td>Bundle ottimizzato, zero backend</td></tr>
+        <tr><td>Deploy</td><td>Netlify / Vercel (static)</td><td>Deploy in 1 click, zero infrastruttura</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout callout-orange">
+      <strong>Vincolo architetturale:</strong> Lo Step 1 è <em>completamente offline</em> dopo il primo caricamento.
+      Nessun dato della bolletta lascia il browser dell'utente. Lo Step 2 invia solo il testo estratto
+      (non l'immagine/PDF originale) alle API Anthropic via HTTPS.
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       3. PERSONA
+  ════════════════════════════════════════════ -->
+  <section id="sec-persona">
+    <h2><span class="section-number">3</span>Persona — Profili Utente</h2>
+
+    <p>L'app è progettata per <strong>6 profili utente</strong> che coprono le principali barriere
+    all'accesso ai documenti burocratici italiani:</p>
+
+    <div class="persona-grid">
+
+      <!-- Giuseppe -->
+      <div class="persona-card" style="border-top-color:#1e6091">
+        <div class="p-avatar">👴</div>
+        <div class="p-name">Giuseppe</div>
+        <div class="p-age">75 anni · Pensionato · Napoli</div>
+        <p class="p-scenario">"Ogni volta che arriva la bolletta Enel chiamo mio figlio. Ci vogliono mezz'ora al telefono per capire quanto devo pagare."</p>
+        <div class="p-needs">
+          <strong>Bisogni chiave:</strong>
+          <ul>
+            <li>Font grande, frasi brevi</li>
+            <li>Unico numero da pagare in evidenza</li>
+            <li>Nessun gergo tecnico (POD, F1/F2, ARERA...)</li>
+            <li>Guida ai metodi di pagamento abituali (tabacchi, ufficio postale)</li>
+          </ul>
+        </div>
+        <div style="margin-top:10px">
+          <span class="tag tag-blue">Anziano</span>
+          <span class="tag tag-orange" style="margin-left:4px">Bassa alfabetizzazione digitale</span>
+        </div>
+      </div>
+
+      <!-- Raffaele -->
+      <div class="persona-card" style="border-top-color:#374151">
+        <div class="p-avatar">🦯</div>
+        <div class="p-name">Raffaele</div>
+        <div class="p-age">80 anni · Non vedente · Palermo</div>
+        <p class="p-scenario">"Uso NVDA e Firefox. Le bollette PDF non sono quasi mai accessibili. Devo chiedere sempre aiuto."</p>
+        <div class="p-needs">
+          <strong>Bisogni chiave:</strong>
+          <ul>
+            <li>Compatibilità screen reader (NVDA, VoiceOver, JAWS)</li>
+            <li>Semantic HTML: <code>&lt;main&gt;</code>, <code>&lt;h1&gt;</code>-<code>&lt;h3&gt;</code>, <code>&lt;nav&gt;</code></li>
+            <li>ARIA live regions per aggiornamenti OCR</li>
+            <li>Focus gestito programmaticamente dopo upload</li>
+            <li>Navigazione completa da tastiera (Tab / Enter / Space)</li>
+          </ul>
+        </div>
+        <div style="margin-top:10px">
+          <span class="tag tag-purple">Non vedente</span>
+          <span class="tag tag-blue" style="margin-left:4px">Screen reader</span>
+        </div>
+      </div>
+
+      <!-- Cecilia -->
+      <div class="persona-card" style="border-top-color:#7c3aed">
+        <div class="p-avatar">👓</div>
+        <div class="p-name">Cecilia</div>
+        <div class="p-age">68 anni · Ipovedente · Torino</div>
+        <p class="p-scenario">"Leggo con lenti spesse da 10 diottrie. Ogni PDF ha font microscopico. Non riesco nemmeno a fare zoom senza che il layout si rompa."</p>
+        <div class="p-needs">
+          <strong>Bisogni chiave:</strong>
+          <ul>
+            <li>Font minimo 20px nel testo, 32px+ per importi</li>
+            <li>Zoom 200% senza scroll orizzontale (layout responsive)</li>
+            <li>Alto contrasto (rapporto ≥ 4.5:1 per corpo testo, ≥ 3:1 per titoli)</li>
+            <li>Toggle modalità alto contrasto</li>
+            <li>Niente testo sovrapposto su immagini</li>
+          </ul>
+        </div>
+        <div style="margin-top:10px">
+          <span class="tag tag-purple">Ipovedente</span>
+          <span class="tag tag-teal" style="margin-left:4px">Alto contrasto</span>
+        </div>
+      </div>
+
+      <!-- Marco -->
+      <div class="persona-card" style="border-top-color:#d97706">
+        <div class="p-avatar">⚡</div>
+        <div class="p-name">Marco</div>
+        <div class="p-age">35 anni · Imprenditore · Milano · ADHD diagnosticato</div>
+        <p class="p-scenario">"Apro la bolletta, mi perdo nei numeri, mi distraggo, chiudo. Poi arriva la mora e non capisco perché non l'avevo pagata."</p>
+        <div class="p-needs">
+          <strong>Bisogni chiave:</strong>
+          <ul>
+            <li>Layout one-thing-at-a-time (una info alla volta, non tutto insieme)</li>
+            <li>Progress bar chiara durante elaborazione OCR</li>
+            <li>Nessuna animazione che distrae (no autoplay, no parallax)</li>
+            <li>Azione principale unica e prominente ("Paga ora")</li>
+            <li>Reminder/countdown giorni alla scadenza</li>
+          </ul>
+        </div>
+        <div style="margin-top:10px">
+          <span class="tag tag-orange">ADHD</span>
+          <span class="tag tag-blue" style="margin-left:4px">Disturbi attenzione</span>
+        </div>
+      </div>
+
+      <!-- Laura -->
+      <div class="persona-card" style="border-top-color:#16a34a">
+        <div class="p-avatar">📖</div>
+        <div class="p-name">Laura</div>
+        <div class="p-age">52 anni · Insegnante · Roma · Dislessia</div>
+        <p class="p-scenario">"I numeri si mescolano quando sono in tabella fitta. Leggo 127 e vedo 172. Le bollette sono un incubo."</p>
+        <div class="p-needs">
+          <strong>Bisogni chiave:</strong>
+          <ul>
+            <li>Font senza grazie (sans-serif), opzione OpenDyslexic</li>
+            <li>Spaziatura tra lettere aumentata (letter-spacing: 0.05em)</li>
+            <li>Nessun muro di testo: max 2 righe per paragrafo nella scheda</li>
+            <li>Cifre grandi e separate (€ 127,40 non €127.40)</li>
+            <li>Colori di supporto, non solo testo, per trasmettere urgenza</li>
+          </ul>
+        </div>
+        <div style="margin-top:10px">
+          <span class="tag tag-green">Dislessia</span>
+          <span class="tag tag-teal" style="margin-left:4px">Font accessibile</span>
+        </div>
+      </div>
+
+      <!-- Ahmed -->
+      <div class="persona-card" style="border-top-color:#dc2626">
+        <div class="p-avatar">🌍</div>
+        <div class="p-name">Ahmed</div>
+        <div class="p-age">44 anni · Operaio · Brescia · Marocco (it. L2)</div>
+        <p class="p-scenario">"In italiano capisco le conversazioni ma la burocrazia è un'altra lingua. 'Quota fissa', 'dispacciamento', 'accise': non so cosa significano."</p>
+        <div class="p-needs">
+          <strong>Bisogni chiave:</strong>
+          <ul>
+            <li>Linguaggio piano: frasi &lt; 15 parole, nessun gergo tecnico</li>
+            <li>Glossario inline: hover/tap su termine tecnico → spiegazione semplice</li>
+            <li>Icone affiancate al testo (universali, cross-lingua)</li>
+            <li>AI explainer (Step 2) particolarmente utile per questa persona</li>
+          </ul>
+        </div>
+        <div style="margin-top:10px">
+          <span class="tag tag-red">Straniero L2</span>
+          <span class="tag tag-orange" style="margin-left:4px">Plain language</span>
+        </div>
+      </div>
+
+    </div><!-- /persona-grid -->
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       4. ACCESSIBILITÀ
+  ════════════════════════════════════════════ -->
+  <section id="sec-access">
+    <h2><span class="section-number">4</span>Requisiti di Accessibilità</h2>
+
+    <p>Derivati direttamente dai 6 profili persona. Standard di riferimento: <strong>WCAG 2.2 livello AA</strong>.</p>
+
+    <h3>4.1 Screen reader (Raffaele)</h3>
+    <ul>
+      <li>HTML semantico: <code>&lt;main&gt;</code>, <code>&lt;section&gt;</code>, <code>&lt;h1&gt;…&lt;h3&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;button&gt;</code> nativi</li>
+      <li><strong>ARIA live region</strong> <code>aria-live="polite"</code> sul container dello stato OCR: l'utente sente l'aggiornamento senza perdere il focus</li>
+      <li><strong>Focus management</strong>: dopo upload, focus si sposta sul progress bar; dopo elaborazione, focus va al titolo della scheda risultati</li>
+      <li>Tutti i controlli hanno <code>aria-label</code> descrittivo</li>
+      <li>Nessuna interazione mouse-only (niente drag-and-drop senza fallback tastiera)</li>
+      <li>Ordine del DOM = ordine logico di lettura</li>
+    </ul>
+
+    <h3>4.2 Ipovedenti (Cecilia)</h3>
+    <ul>
+      <li>Font body: minimo <strong>20px</strong>; importo: <strong>40px</strong>; scadenza: <strong>24px</strong></li>
+      <li>Contrasto colore: ≥ 4.5:1 per testo normale, ≥ 3:1 per testo grande (WCAG AA)</li>
+      <li>Layout fluido: nessun <code>overflow:hidden</code> che tronchi il testo in zoom</li>
+      <li>Toggle <strong>"Alto contrasto"</strong> nel header: inverte palette su dark su bianco-su-nero</li>
+      <li>Input di upload: dimensioni target click minimo 44×44px (WCAG 2.5.5)</li>
+    </ul>
+
+    <h3>4.3 ADHD (Marco)</h3>
+    <ul>
+      <li>Nessuna animazione autmatica che parta al caricamento (<code>prefers-reduced-motion</code> rispettato)</li>
+      <li>Stato di elaborazione: <strong>progress bar lineare</strong> con percentuale, non spinner infiniti</li>
+      <li>Call-to-action principale: <strong>un solo pulsante prominente</strong> per azione (non 5 bottoni paritetici)</li>
+      <li>Countdown scadenza visivamente prioritizzato</li>
+    </ul>
+
+    <h3>4.4 Dislessia (Laura)</h3>
+    <ul>
+      <li>Font: <code>Segoe UI</code> / system-ui di default; toggle <strong>OpenDyslexic</strong> disponibile</li>
+      <li><code>letter-spacing: 0.05em</code>, <code>line-height: 1.65</code> nel body</li>
+      <li>Importi: formato <strong>€ 127,40</strong> (spazio dopo simbolo, virgola decimale italiana)</li>
+      <li>Nessun testo giustificato (solo <code>text-align: left</code>)</li>
+    </ul>
+
+    <h3>4.5 Plain language (Ahmed)</h3>
+    <ul>
+      <li>Frasi nella scheda risultati: massimo 15 parole</li>
+      <li>Termini tecnici obbligatori (es. "POD", "PDR") sempre seguiti da una spiegazione tra parentesi</li>
+      <li>Metodi di pagamento: sempre icona + etichetta (non solo icona, non solo testo)</li>
+    </ul>
+
+    <h3>Matrice di copertura per persona</h3>
+    <table class="acc-matrix">
+      <thead>
+        <tr>
+          <th>Requisito</th>
+          <th>Giuseppe</th>
+          <th>Raffaele</th>
+          <th>Cecilia</th>
+          <th>Marco</th>
+          <th>Laura</th>
+          <th>Ahmed</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Font grande (≥20px)</td><td class="check-yes">✓</td><td class="check-yes">✓</td><td class="check-yes">✓</td><td class="check-yes">✓</td><td class="check-yes">✓</td><td class="check-yes">✓</td></tr>
+        <tr><td>Screen reader (ARIA)</td><td class="check-no">—</td><td class="check-yes">✓</td><td class="check-yes">✓</td><td class="check-no">—</td><td class="check-no">—</td><td class="check-no">—</td></tr>
+        <tr><td>Alto contrasto toggle</td><td class="check-yes">✓</td><td class="check-no">—</td><td class="check-yes">✓</td><td class="check-no">—</td><td class="check-yes">✓</td><td class="check-no">—</td></tr>
+        <tr><td>Navigazione tastiera</td><td class="check-no">—</td><td class="check-yes">✓</td><td class="check-yes">✓</td><td class="check-no">—</td><td class="check-no">—</td><td class="check-no">—</td></tr>
+        <tr><td>No animazioni invasive</td><td class="check-yes">✓</td><td class="check-no">—</td><td class="check-no">—</td><td class="check-yes">✓</td><td class="check-yes">✓</td><td class="check-no">—</td></tr>
+        <tr><td>Plain language</td><td class="check-yes">✓</td><td class="check-yes">✓</td><td class="check-yes">✓</td><td class="check-yes">✓</td><td class="check-yes">✓</td><td class="check-yes">✓</td></tr>
+        <tr><td>Toggle OpenDyslexic</td><td class="check-no">—</td><td class="check-no">—</td><td class="check-no">—</td><td class="check-no">—</td><td class="check-yes">✓</td><td class="check-no">—</td></tr>
+        <tr><td>Icone affiancate testo</td><td class="check-yes">✓</td><td class="check-no">—</td><td class="check-yes">✓</td><td class="check-yes">✓</td><td class="check-yes">✓</td><td class="check-yes">✓</td></tr>
+        <tr><td>Glossario inline</td><td class="check-yes">✓</td><td class="check-no">—</td><td class="check-no">—</td><td class="check-no">—</td><td class="check-no">—</td><td class="check-yes">✓</td></tr>
+        <tr><td>AI Explainer (Step 2)</td><td class="check-yes">✓</td><td class="check-yes">✓</td><td class="check-yes">✓</td><td class="check-no">—</td><td class="check-yes">✓</td><td class="check-yes">✓</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       5. USER JOURNEY
+  ════════════════════════════════════════════ -->
+  <section id="sec-journey">
+    <h2><span class="section-number">5</span>User Journey — Flusso Principale</h2>
+
+    <h3>Step 1 — Analisi e Scheda Semplificata</h3>
+    <div class="journey" style="gap:8px">
+      <div class="step-box">
+        <div class="step-num">1</div>
+        <div class="step-title">Landing</div>
+        <div class="step-desc">Area upload drag &amp; drop. Testo: "Carica la tua bolletta"</div>
+      </div>
+      <div class="step-box">
+        <div class="step-num">2</div>
+        <div class="step-title">Upload</div>
+        <div class="step-desc">PDF o immagine (JPG/PNG). Validazione tipo file lato client</div>
+      </div>
+      <div class="step-box">
+        <div class="step-num">3</div>
+        <div class="step-title">Estrazione</div>
+        <div class="step-desc">PDF.js (testo nativo) o Tesseract.js (OCR immagine). Progress bar</div>
+      </div>
+      <div class="step-box">
+        <div class="step-num">4</div>
+        <div class="step-title">Parsing</div>
+        <div class="step-desc">BillParserService: regex + keyword matching su testo estratto</div>
+      </div>
+      <div class="step-box">
+        <div class="step-num">5</div>
+        <div class="step-title">Scheda</div>
+        <div class="step-desc">Display semplificato: importo, scadenza, pagamento, FAQ</div>
+      </div>
+    </div>
+
+    <h3>Step 2 — AI Explainer (opzionale)</h3>
+    <div class="journey" style="gap:8px">
+      <div class="step-box">
+        <div class="step-num">5</div>
+        <div class="step-title">Scheda</div>
+        <div class="step-desc">Come sopra. In basso: pulsante "Spiegami la Bolletta"</div>
+      </div>
+      <div class="step-box">
+        <div class="step-num">6</div>
+        <div class="step-title">Richiesta AI</div>
+        <div class="step-desc">ClaudeService invia testo estratto + prompt a Claude API</div>
+      </div>
+      <div class="step-box">
+        <div class="step-num">7</div>
+        <div class="step-title">Streaming</div>
+        <div class="step-desc">Risposta in streaming mostrata progressivamente</div>
+      </div>
+      <div class="step-box">
+        <div class="step-num">8</div>
+        <div class="step-title">Spiegazione</div>
+        <div class="step-desc">Testo semplice per sezioni. Font 20px. Pulsante "Copia"</div>
+      </div>
+    </div>
+
+    <h3>Gestione errori</h3>
+    <table>
+      <thead><tr><th>Errore</th><th>Causa</th><th>UX</th></tr></thead>
+      <tbody>
+        <tr><td>File non supportato</td><td>Formato diverso da PDF/JPG/PNG</td><td>Messaggio inline: "Carica un file PDF o un'immagine (JPG/PNG)"</td></tr>
+        <tr><td>OCR fallito / testo vuoto</td><td>Immagine illeggibile o troppo bassa risoluzione</td><td>"Non riesco a leggere questa bolletta. Prova a fotografarla in piena luce."</td></tr>
+        <tr><td>Campo non trovato</td><td>Layout bolletta non supportato</td><td>Campo mostra "—" con link "Mostra testo originale"</td></tr>
+        <tr><td>API Claude non disponibile</td><td>Rete assente o chiave non configurata</td><td>Pulsante Step 2 disabilitato con tooltip esplicativo</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       6. ARCHITETTURA
+  ════════════════════════════════════════════ -->
+  <section id="sec-arch">
+    <h2><span class="section-number">6</span>Architettura</h2>
+
+    <div class="arch-box">
+<pre>
+  ┌─────────────────────────────────────────────────────────────────┐
+  │                      BROWSER (Client only)                      │
+  │                                                                 │
+  │  ┌─────────────┐   PDF/Img   ┌──────────────────────────────┐  │
+  │  │  File Input  │ ──────────▶ │   PDF.js / Tesseract.js     │  │
+  │  └─────────────┘             │   (testo estratto in-memory) │  │
+  │                              └──────────────┬───────────────┘  │
+  │                                             │ raw text         │
+  │                              ┌──────────────▼───────────────┐  │
+  │                              │      BillParserService        │  │
+  │                              │   (regex + keyword matching)  │  │
+  │                              └──────────────┬───────────────┘  │
+  │                                             │ BillData model   │
+  │                              ┌──────────────▼───────────────┐  │
+  │                              │     BillSummaryComponent      │  │
+  │                              │  (scheda semplificata UI)     │  │
+  │                              └──────────────┬───────────────┘  │
+  │                                             │ [Step 2 only]    │
+  │                              ┌──────────────▼───────────────┐  │
+  │                              │       ClaudeService           │  │
+  │                              └──────────────┬───────────────┘  │
+  └─────────────────────────────────────────────┼─────────────────┘
+                                                │ HTTPS (testo)
+                                   ┌────────────▼────────────┐
+                                   │   Anthropic Claude API   │
+                                   │   (claude-sonnet-4-6)    │
+                                   └─────────────────────────┘
+</pre>
+    </div>
+
+    <h3>Flusso dati dettagliato</h3>
+    <ol>
+      <li><strong>File input</strong>: l'utente seleziona o trascina PDF/immagine nel browser</li>
+      <li><strong>Routing di estrazione</strong>:
+        <ul>
+          <li>PDF con testo nativo → <code>PDF.js</code> estrae testo direttamente (veloce, &lt;1s)</li>
+          <li>PDF scansionato / immagine → <code>Tesseract.js</code> esegue OCR (5-15 secondi)</li>
+        </ul>
+      </li>
+      <li><strong>BillParserService</strong>: riceve stringa di testo grezzo, applica pattern regex ordinati per priorità, restituisce oggetto <code>BillData</code></li>
+      <li><strong>BillSummaryComponent</strong>: renderizza la scheda usando i segnali Angular dalla store</li>
+      <li>[Step 2] <strong>ClaudeService</strong>: costruisce il prompt, chiama l'API in streaming, emette token progressivamente via <code>Observable&lt;string&gt;</code></li>
+    </ol>
+
+    <h3>Modello dati BillData</h3>
+    <pre><code><span class="kw">interface</span> BillData {
+  <span class="cm">// Campi obbligatori (Step 1)</span>
+  amount:          number | null;    <span class="cm">// importo in EUR</span>
+  dueDate:         Date   | null;    <span class="cm">// data scadenza pagamento</span>
+  dueDaysLeft:     number | null;    <span class="cm">// giorni rimanenti (calcolato)</span>
+  paymentMethods:  PaymentMethod[];  <span class="cm">// metodi di pagamento rilevati</span>
+  supplier:        string | null;    <span class="cm">// fornitore: ENEL, ENI, INPS…</span>
+  billType:        BillType;         <span class="cm">// ELECTRICITY | GAS | WATER | OTHER</span>
+  customerCode:    string | null;    <span class="cm">// codice cliente</span>
+  pod:             string | null;    <span class="cm">// POD (elettricità)</span>
+  pdr:             string | null;    <span class="cm">// PDR (gas)</span>
+  rawText:         string;           <span class="cm">// testo grezzo per Step 2</span>
+
+  <span class="cm">// Confidenza parsing</span>
+  confidence:      'high' | 'medium' | 'low';
+  missingFields:   string[];         <span class="cm">// campi non trovati</span>
+}</code></pre>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       7. COMPONENTI ANGULAR
+  ════════════════════════════════════════════ -->
+  <section id="sec-components">
+    <h2><span class="section-number">7</span>Componenti Angular</h2>
+
+    <table>
+      <thead>
+        <tr><th>Componente</th><th>Responsabilità</th><th>Input / Output</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>BillUploadComponent</code></td>
+          <td>Area upload con drag &amp; drop e click. Validazione tipo e dimensione file. Progress bar OCR con percentuale. ARIA live region per stato.</td>
+          <td>Output: <code>fileSelected: EventEmitter&lt;File&gt;</code></td>
+        </tr>
+        <tr>
+          <td><code>BillSummaryComponent</code></td>
+          <td>Scheda semplificata con importo, scadenza, contatore giorni, metodi pagamento. Riceve BillData, non conosce la logica di parsing.</td>
+          <td>Input: <code>billData: Signal&lt;BillData&gt;</code></td>
+        </tr>
+        <tr>
+          <td><code>PaymentMethodsComponent</code></td>
+          <td>Lista metodi di pagamento rilevati (icona + etichetta + link se disponibile). Max 3 visibili, gli altri in accordion.</td>
+          <td>Input: <code>methods: PaymentMethod[]</code></td>
+        </tr>
+        <tr>
+          <td><code>FaqComponent</code></td>
+          <td>Accordion con 5-6 domande frequenti per tipo di bolletta. Si espande su clic. Pulsante "Hai domande?".</td>
+          <td>Input: <code>billType: BillType</code></td>
+        </tr>
+        <tr>
+          <td><code>BillExplainerComponent</code> <span class="tag tag-orange" style="font-size:10px">Step 2</span></td>
+          <td>Mostra spiegazione AI in streaming. Pulsante "Spiegami la Bolletta" con stato loading. Copia testo negli appunti.</td>
+          <td>Input: <code>rawText: string</code></td>
+        </tr>
+        <tr>
+          <td><code>AccessibilityToolbarComponent</code></td>
+          <td>Barra persistente in alto a destra: toggle alto contrasto, toggle OpenDyslexic, aumenta/diminuisci font.</td>
+          <td>Nessun input. Scrive su <code>localStorage</code>.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       8. SERVIZI ANGULAR
+  ════════════════════════════════════════════ -->
+  <section id="sec-services">
+    <h2><span class="section-number">8</span>Servizi Angular</h2>
+
+    <table>
+      <thead>
+        <tr><th>Servizio</th><th>Responsabilità</th><th>Metodo principale</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>PdfService</code></td>
+          <td>Carica PDF.js (lazy), estrae testo da PDF nativo. Emette progresso.</td>
+          <td><code>extractText(file: File): Observable&lt;string&gt;</code></td>
+        </tr>
+        <tr>
+          <td><code>OcrService</code></td>
+          <td>Carica Tesseract.js Worker (lazy, ~3MB), esegue OCR su immagine con lingua italiana, emette progresso (0–100%).</td>
+          <td><code>recognize(file: File): Observable&lt;OcrProgress&gt;</code></td>
+        </tr>
+        <tr>
+          <td><code>BillParserService</code></td>
+          <td>Applica pattern regex e keyword matching al testo grezzo. Determina supplier, tipo, estrae tutti i campi BillData. Calcola confidenza.</td>
+          <td><code>parse(text: string): BillData</code></td>
+        </tr>
+        <tr>
+          <td><code>ClaudeService</code> <span class="tag tag-orange" style="font-size:10px">Step 2</span></td>
+          <td>Costruisce prompt per Claude, chiama Anthropic API con streaming, ritorna Observable che emette token progressivamente.</td>
+          <td><code>explain(rawText: string): Observable&lt;string&gt;</code></td>
+        </tr>
+        <tr>
+          <td><code>AccessibilityService</code></td>
+          <td>Gestisce preferenze accessibilità (alto contrasto, OpenDyslexic, font size) con persistenza su localStorage. Applica classi CSS al body.</td>
+          <td><code>toggleHighContrast()</code>, <code>setFontScale(n)</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       9. PATTERN REGEX
+  ════════════════════════════════════════════ -->
+  <section id="sec-regex">
+    <h2><span class="section-number">9</span>Pattern Regex per Bollette Italiane</h2>
+
+    <p>I pattern sono applicati in cascata, del più specifico al più generico. In caso di match multipli,
+    si usa l'importo più alto (di solito è il totale) o si prende quello esplicitamente etichettato come "totale".</p>
+
+    <h3>9.1 Importo da pagare</h3>
+    <pre><code><span class="cm">// Priorità 1 — etichette esplicite "totale da pagare"</span>
+<span class="str">/(?:totale\s+da\s+pagare|importo\s+da\s+pagare|saldo\s+dovuto)[^\d€]*€?\s*(\d{1,4}[.,]\d{2})/gi</span>
+
+<span class="cm">// Priorità 2 — "importo" generico</span>
+<span class="str">/(?:importo|totale\s+fattura|totale\s+bolletta)[^\d€]*€?\s*(\d{1,4}[.,]\d{2})/gi</span>
+
+<span class="cm">// Priorità 3 — "da pagare" senza "totale"</span>
+<span class="str">/da\s+pagare[^\d€]*€?\s*(\d{1,4}[.,]\d{2})/gi</span>
+
+<span class="cm">// Normalizzazione: "127.456,78" → 127456.78 | "127,78" → 127.78</span></code></pre>
+
+    <h3>9.2 Data di scadenza</h3>
+    <pre><code><span class="cm">// Formato GG/MM/AAAA o GG-MM-AAAA o GG.MM.AAAA</span>
+<span class="str">/(?:scadenza|entro\s+il|pagare\s+entro|data\s+limite)[^\d]*(\d{1,2}[\/\-\.]\d{1,2}[\/\-\.]\d{2,4})/gi</span>
+
+<span class="cm">// Formato testuale: "entro il 30 settembre 2026"</span>
+<span class="str">/entro\s+il\s+(\d{1,2})\s+(gennaio|febbraio|marzo|aprile|maggio|giugno|luglio|agosto|settembre|ottobre|novembre|dicembre)\s+(\d{4})/gi</span></code></pre>
+
+    <h3>9.3 Identificativi utente</h3>
+    <pre><code><span class="cm">// Codice cliente (8-12 cifre)</span>
+<span class="str">/(?:codice\s+cliente|cod\.?\s*cliente|n\.?\s*cliente)[^\d]*(\d{7,12})/gi</span>
+
+<span class="cm">// POD (punto di prelievo elettricità) — formato europeo IT + 14 cifre</span>
+<span class="str">/\bPOD[:\s]*([A-Z]{2}\d{14})\b/gi</span>
+
+<span class="cm">// PDR (punto di riconsegna gas) — 14 cifre</span>
+<span class="str">/\bPDR[:\s]*(\d{14})\b/gi</span>
+
+<span class="cm">// Codice fiscale intestatario (fallback nome)</span>
+<span class="str">/(?:intestato\s+a|titolare)[:\s]+([A-ZÀÈÉÌÒÙ][a-zàèéìòù]+(?:\s+[A-ZÀÈÉÌÒÙ][a-zàèéìòù]+)+)/gi</span></code></pre>
+
+    <h3>9.4 Rilevamento supplier e tipo bolletta</h3>
+    <pre><code><span class="cm">// Fornitori noti</span>
+<span class="kw">const</span> SUPPLIERS = {
+  ENEL:    <span class="str">/\b(?:enel|enel\s+energia|e\.on)\b/gi</span>,
+  ENI:     <span class="str">/\b(?:eni\s+gas|eni\s+e\s+luce|eni\s+plenitude)\b/gi</span>,
+  A2A:     <span class="str">/\bA2A\b/g</span>,
+  HERA:    <span class="str">/\bhera\b/gi</span>,
+  INPS:    <span class="str">/\bINPS\b/g</span>,
+};
+
+<span class="cm">// Tipo documento</span>
+<span class="kw">const</span> BILL_TYPES = {
+  ELECTRICITY: <span class="str">/(?:fornitura\s+(?:di\s+)?energia\s+elettrica|kWh|kVA|POD)/gi</span>,
+  GAS:         <span class="str">/(?:fornitura\s+(?:di\s+)?gas\s+naturale|Smc|PDR|metano)/gi</span>,
+  WATER:       <span class="str">/(?:acquedotto|fornitura\s+idrica|servizio\s+idrico)/gi</span>,
+};</code></pre>
+
+    <h3>9.5 Metodi di pagamento</h3>
+    <pre><code><span class="cm">// Rilevamento metodi menzionati nella bolletta</span>
+<span class="kw">const</span> PAYMENT_PATTERNS = {
+  DOMICILIATION: <span class="str">/(?:domiciliazione|addebito\s+diretto|SEPA|RID)\b/gi</span>,
+  BANK_TRANSFER: <span class="str">/(?:bonifico\s+bancario|IBAN|conto\s+corrente)\b/gi</span>,
+  BOLLETTINO:    <span class="str">/(?:bollettino\s+postale|MAV)\b/gi</span>,
+  APP:           <span class="str">/(?:app\s+(?:enel|eni)|sito\s+web|online)\b/gi</span>,
+  TOBACCONIST:   <span class="str">/(?:tabacchi|ricevitoria|lottomatica|sisal)\b/gi</span>,
+  POSTAL_OFFICE: <span class="str">/ufficio\s+postale\b/gi</span>,
+  ATM:           <span class="str">/(?:ATM|sportello\s+bancomat)\b/gi</span>,
+};</code></pre>
+
+    <div class="callout callout-orange">
+      <strong>Nota:</strong> In caso di bassa confidenza (meno di 2 campi trovati), l'app mostra una
+      nota: <em>"Non ho trovato tutti i dati. Controlla il documento originale."</em> con pulsante
+      per visualizzare il testo grezzo estratto.
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       10. UI/UX
+  ════════════════════════════════════════════ -->
+  <section id="sec-ux">
+    <h2><span class="section-number">10</span>Specifiche UI/UX</h2>
+
+    <h3>10.1 Palette colori</h3>
+    <table>
+      <thead><tr><th>Uso</th><th>Colore</th><th>Hex</th><th>Contrasto su bianco</th></tr></thead>
+      <tbody>
+        <tr><td>Importo (urgente/alto)</td><td><span style="color:#c0392b">■</span> Rosso</td><td><code>#c0392b</code></td><td>≥5.1:1 ✓ AA</td></tr>
+        <tr><td>Importo (normale)</td><td><span style="color:#27ae60">■</span> Verde</td><td><code>#27ae60</code></td><td>≥4.6:1 ✓ AA</td></tr>
+        <tr><td>Scadenza (avviso)</td><td><span style="color:#e67e22">■</span> Arancio</td><td><code>#e67e22</code></td><td>≥3.1:1 ✓ AA large</td></tr>
+        <tr><td>Azioni primarie</td><td><span style="color:#1e6091">■</span> Blu</td><td><code>#1e6091</code></td><td>≥7.2:1 ✓ AAA</td></tr>
+        <tr><td>Sfondo scheda</td><td><span style="color:#f8fafc">■</span> Grigio chiaro</td><td><code>#f8fafc</code></td><td>—</td></tr>
+      </tbody>
+    </table>
+
+    <h3>10.2 Tipografia</h3>
+    <table>
+      <thead><tr><th>Elemento</th><th>Font size</th><th>Font weight</th></tr></thead>
+      <tbody>
+        <tr><td>Importo da pagare</td><td>40px</td><td>800</td></tr>
+        <tr><td>Scadenza</td><td>24px</td><td>700</td></tr>
+        <tr><td>Titoli sezione</td><td>20px</td><td>700</td></tr>
+        <tr><td>Corpo testo scheda</td><td>18px</td><td>400</td></tr>
+        <tr><td>Etichette metodi pagamento</td><td>16px</td><td>600</td></tr>
+        <tr><td>Note/disclaimer</td><td>14px</td><td>400</td></tr>
+      </tbody>
+    </table>
+
+    <h3>10.3 Layout scheda risultato (mobile-first)</h3>
+    <pre><code>┌─────────────────────────────────────────────┐
+│  🔵 Fornitore: ENEL           [Alto contrasto]│
+├─────────────────────────────────────────────┤
+│                                             │
+│  DA PAGARE                                  │
+│  ╔═══════════════╗                          │
+│  ║   € 127,40    ║  ← font 40px, verde      │
+│  ╚═══════════════╝                          │
+│                                             │
+│  ⏰ Entro il 30 settembre 2026              │
+│     (16 giorni)  ← arancio se &lt;7gg, rosso se &lt;3gg │
+│                                             │
+├─────────────────────────────────────────────┤
+│  COME PAGARE                                │
+│  [🏦 Bonifico] [📱 App Enel] [🏪 Tabacchi] │
+├─────────────────────────────────────────────┤
+│  [❓ Hai domande?]                           │
+│  [🤖 Spiegami la Bolletta] ← Step 2         │
+└─────────────────────────────────────────────┘</code></pre>
+
+    <h3>10.4 Componenti PrimeNG utilizzati</h3>
+    <ul>
+      <li><code>p-fileUpload</code>: upload con drag &amp; drop, preview, limitazione dimensione</li>
+      <li><code>p-progressBar</code>: avanzamento OCR con percentuale</li>
+      <li><code>p-card</code>: container scheda semplificata</li>
+      <li><code>p-button</code>: CTA principali con varianti severity</li>
+      <li><code>p-tag</code>: badge fornitore, tipo bolletta, scadenza</li>
+      <li><code>p-accordion</code>: FAQ espandibili, metodi di pagamento aggiuntivi</li>
+      <li><code>p-toast</code>: notifiche di errore accessibili</li>
+      <li><code>p-skeleton</code>: loading state durante OCR</li>
+    </ul>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       11. AI EXPLAINER (STEP 2)
+  ════════════════════════════════════════════ -->
+  <section id="sec-ai">
+    <h2><span class="section-number">11</span>AI Explainer — Step 2 (opzionale)</h2>
+
+    <h3>11.1 Prompt design</h3>
+    <pre><code><span class="cm">// System prompt</span>
+<span class="kw">const</span> SYSTEM_PROMPT = <span class="str">`Sei un assistente che spiega bollette e documenti
+burocratici italiani in modo semplice e chiaro.
+Il tuo compito è spiegare il documento come se parlassi
+con una persona anziana o con difficoltà di lettura.
+
+Regole:
+- Frasi brevi (max 15 parole)
+- Nessun termine tecnico senza spiegazione
+- Usa la seconda persona singola ("tu devi pagare")
+- Struttura: 3-5 sezioni con titolo semplice
+- Prima sezione sempre: "Cosa devi fare ADESSO"
+- Usa euro con virgola (€ 127,40 non $127.40)
+- Non ripetere i dati già mostrati nella scheda`</span>;
+
+<span class="cm">// User prompt</span>
+<span class="kw">const</span> userPrompt = <span class="str">`Spiega questa bolletta in parole semplici:\n\n${rawText}`</span>;
+
+<span class="cm">// Modello: claude-sonnet-4-6 | max_tokens: 800 | stream: true</span></code></pre>
+
+    <h3>11.2 Struttura risposta attesa</h3>
+    <pre><code>## Cosa devi fare ADESSO
+Devi pagare € 127,40 entro il 30 settembre.
+Hai ancora 16 giorni di tempo.
+
+## Quanto hai consumato
+Questo mese hai usato più luce del solito.
+Il motivo è l'aria condizionata di luglio e agosto.
+
+## Perché l'importo è cambiato
+L'Enel ha aumentato il prezzo del kWh a luglio.
+Hai pagato € 0,32 per ogni kWh invece di € 0,28.
+
+## Come puoi pagare
+Puoi pagare in tre modi semplici:
+- Con l'app Enel sul telefono
+- Con un bonifico bancario all'IBAN indicato
+- Dal tabaccaio con il codice QR in fondo alla bolletta
+
+## Hai altri dubbi?
+Chiama il numero verde Enel: 800 900 860 (gratuito).</code></pre>
+
+    <h3>11.3 Considerazioni di sicurezza e privacy</h3>
+    <ul>
+      <li>Viene inviato <strong>solo il testo estratto</strong> (non PDF/immagine originale)</li>
+      <li>La chiave API Anthropic è configurata come variabile d'ambiente a build time (Angular environment)</li>
+      <li>Warning visibile all'utente prima dell'invio: "Il testo della tua bolletta sarà inviato a un servizio AI esterno"</li>
+      <li>Il testo inviato non include immagini, dati biometrici o informazioni non presenti nel testo</li>
+    </ul>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       12. TIMELINE
+  ════════════════════════════════════════════ -->
+  <section id="sec-timeline">
+    <h2><span class="section-number">12</span>Timeline — 4 ore</h2>
+
+    <div class="timeline">
+      <div class="tl-item done">
+        <div class="tl-time">ORE 0:00 – 0:30</div>
+        <div class="tl-title">Setup e analisi funzionale</div>
+        <div class="tl-desc">Scaffolding Angular già presente. Redazione af.html. Decisioni architetturali. Installazione dipendenze (Tesseract.js, PDF.js).</div>
+        <div class="tl-tags">
+          <span class="tag tag-green">Completato</span>
+          <span class="tag tag-blue" style="margin-left:4px">Setup</span>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">ORE 0:30 – 1:30</div>
+        <div class="tl-title">Core services: OcrService, PdfService, BillParserService</div>
+        <div class="tl-desc">Implementazione dei 3 servizi base. Unit test manuale con bolletta reale. Verifica pattern regex su almeno 2 layout (Enel, Eni).</div>
+        <div class="tl-tags">
+          <span class="tag tag-orange">In lavorazione</span>
+          <span class="tag tag-blue" style="margin-left:4px">Step 1</span>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">ORE 1:30 – 2:30</div>
+        <div class="tl-title">UI Step 1: upload + scheda semplificata</div>
+        <div class="tl-desc">BillUploadComponent, BillSummaryComponent, PaymentMethodsComponent, AccessibilityToolbarComponent. Integrazione completa. Test accessibilità base.</div>
+        <div class="tl-tags">
+          <span class="tag tag-purple">Da fare</span>
+          <span class="tag tag-blue" style="margin-left:4px">Step 1</span>
+        </div>
+      </div>
+      <div class="tl-item crit">
+        <div class="tl-time">ORE 2:30 – 3:00</div>
+        <div class="tl-title">✓ MILESTONE: Demo Step 1 funzionante</div>
+        <div class="tl-desc">Upload bolletta reale → scheda con importo e scadenza visibili. Se non funziona entro quest'ora, Step 2 viene saltato.</div>
+        <div class="tl-tags">
+          <span class="tag tag-red">Milestone critica</span>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">ORE 3:00 – 3:45</div>
+        <div class="tl-title">AI Explainer — Step 2 (se milestone raggiunta)</div>
+        <div class="tl-desc">ClaudeService con streaming. BillExplainerComponent. Integrazione pulsante "Spiegami la Bolletta". Test con chiave API.</div>
+        <div class="tl-tags">
+          <span class="tag tag-orange">Step 2 (opzionale)</span>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">ORE 3:45 – 4:00</div>
+        <div class="tl-title">Polish, build e preparazione demo</div>
+        <div class="tl-desc">Pulizia UI, test mobile (responsive), ng build --configuration production. Preparazione scenario demo before/after per la presentazione.</div>
+        <div class="tl-tags">
+          <span class="tag tag-teal">Finalizzazione</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       13. CRITERI DI ACCETTAZIONE
+  ════════════════════════════════════════════ -->
+  <section id="sec-acceptance">
+    <h2><span class="section-number">13</span>Criteri di Accettazione</h2>
+
+    <h3>Step 1 — MUST HAVE</h3>
+    <ul class="checklist">
+      <li><span class="chk"></span>Caricando un PDF testuale di bolletta Enel, viene estratto l'importo correttamente</li>
+      <li><span class="chk"></span>Caricando un'immagine JPG di bolletta, Tesseract.js completa il riconoscimento in &lt;30 secondi con progress bar visibile</li>
+      <li><span class="chk"></span>La scheda mostra importo in font ≥40px, scadenza in font ≥24px</li>
+      <li><span class="chk"></span>Il countdown giorni alla scadenza è calcolato correttamente rispetto alla data corrente</li>
+      <li><span class="chk"></span>Almeno 1 metodo di pagamento viene rilevato e mostrato con icona</li>
+      <li><span class="chk"></span>Se un campo non viene trovato, viene mostrata una dash (—) senza crash</li>
+      <li><span class="chk"></span>L'app funziona offline dopo il primo caricamento (Tesseract.js già scaricato)</li>
+      <li><span class="chk"></span>La pagina è navigabile completamente con tastiera (Tab / Enter)</li>
+      <li><span class="chk"></span>Lo screen reader NVDA legge correttamente importo e scadenza dopo elaborazione</li>
+      <li><span class="chk"></span>Il layout non si rompe allo zoom 200% su viewport 375px (mobile)</li>
+      <li><span class="chk"></span>Il toggle "Alto contrasto" inverte i colori e mantiene il contrasto ≥7:1</li>
+    </ul>
+
+    <h3>Step 2 — NICE TO HAVE</h3>
+    <ul class="checklist">
+      <li><span class="chk"></span>Il pulsante "Spiegami la Bolletta" è visibile sotto la scheda</li>
+      <li><span class="chk"></span>La risposta di Claude viene mostrata in streaming (testo appare progressivamente)</li>
+      <li><span class="chk"></span>La risposta usa frasi brevi e linguaggio semplice (no gergo tecnico senza spiegazione)</li>
+      <li><span class="chk"></span>Prima dell'invio API appare il warning privacy</li>
+      <li><span class="chk"></span>Se l'API non risponde entro 10 secondi, appare un messaggio di errore comprensibile</li>
+    </ul>
+
+    <div class="callout callout-green" style="margin-top:20px">
+      <strong>Definizione di Done per la demo:</strong> un utente che impersona Giuseppe (75 anni)
+      deve poter caricare la bolletta, leggere l'importo ad alta voce e sapere entro quando pagare
+      senza ricevere nessuna spiegazione preventiva da parte del team.
+    </div>
+  </section>
+
+</main>
+
+<footer class="doc-footer">
+  BollettaChiara · Analisi Funzionale v1.0 · Hackathon Accenture · Settembre 2026 ·
+  <a href="#">massimo.baffoni@accenture.com</a>
+</footer>
+
+</body>
+</html>
