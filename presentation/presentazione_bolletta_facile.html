@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Bolletta Facile · Presentazione</title>
+<style>
+  :root {
+    --purple: #A100FF;
+    --purple-light: #BE82FF;
+    --purple-dark: #460073;
+    --ink: #0A0014;
+    --rose: #FF50A0;
+    --green: #38E8B0;
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    background: #050008;
+    color: #fff;
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow: hidden;
+  }
+  /* radial glow */
+  body::before {
+    content: "";
+    position: fixed; inset: 0;
+    background:
+      radial-gradient(700px 500px at 15% 10%, rgba(161,0,255,0.18), transparent 60%),
+      radial-gradient(600px 500px at 90% 90%, rgba(255,80,160,0.10), transparent 60%);
+    pointer-events: none; z-index: 0;
+  }
+
+  .deck { position: relative; height: 100vh; z-index: 1; }
+  .slide {
+    position: absolute; inset: 0;
+    display: none;
+    flex-direction: column; justify-content: center;
+    max-width: 940px; margin: 0 auto;
+    padding: 72px 32px 96px;
+    animation: fade .45s ease;
+  }
+  .slide.active { display: flex; }
+  @keyframes fade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+  /* top brand bar (fixed) */
+  .brand {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 3;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px; padding: 20px 32px;
+    max-width: 940px; margin: 0 auto;
+  }
+  .brand .logo { font-size: 18px; font-weight: 700; letter-spacing: -0.02em; }
+  .brand .logo .mark { color: var(--purple); }
+  .brand .org { text-align: right; font-size: 10px; line-height: 1.4; }
+  .brand .org .a { color: var(--purple-light); text-transform: uppercase; letter-spacing: 0.25em; font-weight: 600; }
+  .brand .org .b { color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.2em; }
+
+  .eyebrow {
+    display: inline-block; align-self: flex-start;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.05); border-radius: 999px;
+    padding: 6px 16px; font-size: 11px; text-transform: uppercase;
+    letter-spacing: 0.25em; color: rgba(255,255,255,0.7); margin-bottom: 22px;
+  }
+  h1 { font-size: 52px; font-weight: 700; letter-spacing: -0.02em; margin: 0 0 16px; line-height: 1.05; }
+  h2 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; margin: 0 0 20px; line-height: 1.15; }
+  .grad {
+    background: linear-gradient(90deg, var(--purple-light), var(--purple));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .lead { font-size: 20px; color: rgba(255,255,255,0.72); max-width: 720px; }
+  .muted { color: rgba(255,255,255,0.55); }
+  h3.kick { font-size: 12px; text-transform: uppercase; letter-spacing: 0.25em; color: var(--purple-light); margin: 0 0 10px; }
+
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 8px; }
+  .card {
+    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.03);
+    border-radius: 16px; padding: 22px 24px;
+  }
+  .card.accent { border-color: rgba(161,0,255,0.3); background: rgba(161,0,255,0.06); }
+  .card h4 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.18em; margin: 0 0 12px; color: rgba(255,255,255,0.5); }
+  .card.accent h4 { color: var(--purple-light); }
+
+  ul.bullets { list-style: none; padding: 0; margin: 0; }
+  ul.bullets li { position: relative; padding-left: 22px; color: rgba(255,255,255,0.78); margin-bottom: 10px; font-size: 16px; }
+  ul.bullets li::before { content: "›"; position: absolute; left: 0; color: var(--purple); font-weight: 700; }
+  ul.avoid li::before { content: "×"; color: var(--rose); }
+  ul.ok li::before { content: "✓"; color: var(--green); }
+
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 12px; }
+  .step { border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.03); border-radius: 14px; padding: 18px; }
+  .step .n { font-size: 13px; font-weight: 700; color: var(--purple-light); }
+  .step h5 { font-size: 15px; margin: 8px 0 6px; font-weight: 600; }
+  .step p { font-size: 13px; color: rgba(255,255,255,0.55); margin: 0; }
+
+  .stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 20px; }
+  .stat { text-align: left; }
+  .stat .big { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; }
+  .stat .big.g { color: var(--purple-light); }
+  .stat .lbl { font-size: 13px; color: rgba(255,255,255,0.55); }
+
+  .quote {
+    border-left: 3px solid var(--purple); padding: 8px 0 8px 20px;
+    font-size: 22px; color: rgba(255,255,255,0.9); font-style: italic; margin: 6px 0 0;
+  }
+  .quote span { color: rgba(255,255,255,0.5); font-style: normal; font-size: 15px; display: block; margin-top: 8px; }
+
+  .chip { display:inline-block; border:1px solid rgba(56,232,176,0.35); background:rgba(56,232,176,0.08); color:var(--green); border-radius:999px; padding:4px 12px; font-size:12px; letter-spacing:0.08em; }
+
+  /* nav */
+  .nav { position: fixed; bottom: 22px; left: 0; right: 0; z-index: 4;
+    display: flex; align-items: center; justify-content: center; gap: 18px; }
+  .dots { display: flex; gap: 8px; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.2); border: none; cursor: pointer; padding: 0; transition: .2s; }
+  .dot.on { background: var(--purple); transform: scale(1.3); }
+  .arrow { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); color: #fff;
+    width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 18px; line-height: 1; }
+  .arrow:hover { background: rgba(161,0,255,0.25); }
+  .counter { position: fixed; bottom: 26px; right: 28px; z-index: 4; font-size: 12px; letter-spacing: 0.2em; color: rgba(255,255,255,0.4); }
+  .hint { position: fixed; top: 60px; right: 28px; z-index: 4; font-size: 11px; letter-spacing: 0.12em; color: rgba(255,255,255,0.3); text-transform: uppercase; }
+
+  footer.end { margin-top: 28px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.2em; color: rgba(255,255,255,0.3); }
+  footer.end .mark { color: var(--purple); }
+
+  @media (max-width: 720px) {
+    .cols, .steps, .stat-row { grid-template-columns: 1fr; }
+    h1 { font-size: 34px; } h2 { font-size: 26px; } .lead { font-size: 17px; }
+    .slide { padding: 84px 20px 96px; }
+  }
+  @media print {
+    body { overflow: visible; background: #fff; color: #111; }
+    .slide { display: flex !important; position: relative; height: auto; page-break-after: always; max-width: 100%; }
+    .nav, .counter, .hint, .brand { position: static; }
+    body::before { display: none; }
+  }
+</style>
+</head>
+<body>
+  <div class="brand">
+    <span class="logo">Bolletta Facile<span class="mark">&gt;</span></span>
+    <span class="org">
+      <span class="a">Accenture</span><br />
+      <span class="b">Hackathon · Agentic Coding</span>
+    </span>
+  </div>
+
+  <div class="hint">← → per navigare</div>
+
+  <div class="deck" id="deck">
+
+    <!-- 1 · TITLE -->
+    <section class="slide active">
+      <span class="eyebrow">Inclusione Finanziaria</span>
+      <h1>La tua bolletta,<br /><span class="grad">spiegata da chi ti vuole bene.</span></h1>
+      <p class="lead">Bolletta Facile trasforma una bolletta di luce o gas — piena di sigle e numeri — in una spiegazione chiara e rassicurante, per chi oggi non riesce a capirla da solo.</p>
+    </section>
+
+    <!-- 2 · PROBLEMA -->
+    <section class="slide">
+      <h3 class="kick">Il problema</h3>
+      <h2>Una bolletta è scritta per gli esperti,<br />non per le persone.</h2>
+      <p class="lead">POD, PDR, kWh, oneri di sistema, conguaglio, materia energia… Per milioni di persone questi termini sono un muro. E le domande che contano restano senza risposta:</p>
+      <div class="cols" style="margin-top:18px">
+        <div class="card">
+          <ul class="bullets avoid">
+            <li>Quanto devo pagare, davvero?</li>
+            <li>Entro quando, e come?</li>
+            <li>È già stata addebitata o devo fare qualcosa?</li>
+          </ul>
+        </div>
+        <div class="card">
+          <ul class="bullets avoid">
+            <li>Sto consumando troppo?</li>
+            <li>Questo importo è normale o c'è un errore?</li>
+            <li>Ci sono sconti o bonus che mi spettano?</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3 · PERSONA -->
+    <section class="slide">
+      <h3 class="kick">Chi aiutiamo</h3>
+      <h2>La persona al centro.</h2>
+      <p class="quote">«Mi arriva la bolletta, la guardo e non capisco quanto devo pagare né se è tutto giusto. Chiamo sempre mia figlia.»
+        <span>Maria, 74 anni — vive sola, poca dimestichezza con i termini tecnici.</span>
+      </p>
+      <div class="cols" style="margin-top:22px">
+        <div class="card accent">
+          <h4>Il target</h4>
+          <ul class="bullets">
+            <li>Persone anziane</li>
+            <li>Bassa alfabetizzazione finanziaria e digitale</li>
+            <li>Chi non conosce il gergo di luce e gas</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>La difficoltà precisa</h4>
+          <ul class="bullets">
+            <li>Non estrarre le informazioni chiave dalla bolletta</li>
+            <li>Non sapere cosa fare e con quale urgenza</li>
+            <li>Ansia, dipendenza da altri, rischio di errori o truffe</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4 · SOLUZIONE -->
+    <section class="slide">
+      <h3 class="kick">La soluzione</h3>
+      <h2>Fotografi la bolletta.<br /><span class="grad">Te la spieghiamo noi.</span></h2>
+      <p class="lead">L'utente carica una foto o il PDF della bolletta. In pochi istanti l'app risponde in linguaggio semplice, come farebbe una persona di fiducia.</p>
+      <div class="steps">
+        <div class="step"><span class="n">01</span><h5>Carichi la bolletta</h5><p>Una foto o un PDF, luce o gas. Nient'altro da compilare.</p></div>
+        <div class="step"><span class="n">02</span><h5>La leggiamo</h5><p>L'app individua da sola i dati che contano, senza che tu cerchi nulla.</p></div>
+        <div class="step"><span class="n">03</span><h5>Te la spieghiamo</h5><p>Spiegazione chiara + riepilogo: quanto, quando, come, e se è tutto a posto.</p></div>
+      </div>
+    </section>
+
+    <!-- 5 · COME FUNZIONA -->
+    <section class="slide">
+      <h3 class="kick">Come funziona (in parole semplici)</h3>
+      <h2>Due assistenti in sequenza,<br />e una regola d'oro: onestà.</h2>
+      <div class="cols" style="margin-top:8px">
+        <div class="card">
+          <h4>Un assistente che legge</h4>
+          <p class="muted">Guarda la bolletta e ne ricava i dati importanti — come farebbe un occhio esperto, ma in automatico.</p>
+        </div>
+        <div class="card">
+          <h4>Un assistente che spiega</h4>
+          <p class="muted">Trasforma quei dati in frasi semplici e in un riepilogo con le sole cose che ti servono davvero.</p>
+        </div>
+      </div>
+      <div class="card accent" style="margin-top:18px">
+        <h4>La regola d'oro · il grado di confidenza</h4>
+        <p class="muted" style="margin:0">Per ogni informazione l'app dice <b>quanto è sicura di averla letta bene</b> (es. 95%). Se un dato è coperto o illeggibile, lo dichiara: <b>non inventa mai</b>. Così l'utente sa di chi fidarsi e quando controllare.</p>
+      </div>
+    </section>
+
+    <!-- 6 · PRIMA / DOPO -->
+    <section class="slide">
+      <h3 class="kick">Prima / Dopo</h3>
+      <h2>Dallo scoraggiamento all'autonomia.</h2>
+      <div class="cols">
+        <div class="card">
+          <h4 style="color:var(--rose)">Prima</h4>
+          <ul class="bullets avoid">
+            <li>«Spesa materia energia … PUN … oneri ASOS … F1/F2/F3»</li>
+            <li>Totale nascosto tra decine di voci</li>
+            <li>«Devo chiamare qualcuno per capire»</li>
+          </ul>
+        </div>
+        <div class="card accent">
+          <h4>Dopo</h4>
+          <ul class="bullets ok">
+            <li>«Devi pagare <b>131,87 €</b> entro il <b>24 settembre</b>, con pagoPA.»</li>
+            <li>«Consumo nella norma. Hai un bonus sociale di 32 €.»</li>
+            <li>«Nessun problema rilevato: sembra tutto in ordine.»</li>
+          </ul>
+        </div>
+      </div>
+      <p class="muted" style="margin-top:16px">La persona porta a termine da sola ciò che prima non riusciva a fare — senza tradire il significato dei dati originali.</p>
+    </section>
+
+    <!-- 7 · ONESTA & LIMITI -->
+    <section class="slide">
+      <h3 class="kick">Fiducia, non magia</h3>
+      <h2>Cosa fa — e cosa non fa.</h2>
+      <div class="cols">
+        <div class="card">
+          <h4>Ci mettiamo la faccia</h4>
+          <ul class="bullets ok">
+            <li>Mostra il grado di confidenza di ogni dato</li>
+            <li>Dichiara ciò che non riesce a leggere, senza inventare</li>
+            <li>Semplifica il linguaggio senza cambiare gli importi</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>Dove serve l'occhio umano</h4>
+          <ul class="bullets avoid">
+            <li>Non dà consigli finanziari né dice cosa comprare</li>
+            <li>Sui dati poco leggibili invita a verificare la bolletta</li>
+            <li>Resta un aiuto alla comprensione, non un sostituto</li>
+          </ul>
+        </div>
+      </div>
+      <p class="muted" style="margin-top:14px"><span class="chip">Educazione, non consulenza</span> &nbsp; Il nostro scopo è rendere comprensibile, non consigliare.</p>
+    </section>
+
+    <!-- 8 · VALORE / CHIUSURA -->
+    <section class="slide">
+      <span class="eyebrow">Il valore</span>
+      <h2>Più autonomia, meno ansia,<br /><span class="grad">meno errori.</span></h2>
+      <div class="stat-row">
+        <div class="stat"><div class="big g">1 foto</div><div class="lbl">è tutto ciò che serve all'utente</div></div>
+        <div class="stat"><div class="big g">3 domande</div><div class="lbl">quanto · quando · come — con risposta chiara</div></div>
+        <div class="stat"><div class="big g">0 gergo</div><div class="lbl">nessun tecnicismo, solo parole di tutti i giorni</div></div>
+      </div>
+      <p class="lead" style="margin-top:24px">Bolletta Facile mette accanto alla persona un aiuto paziente che le restituisce controllo sulle proprie spese quotidiane. Una piccola cosa, che cambia una giornata.</p>
+    </section>
+
+    <!-- 9 · LIMITI ATTUALI -->
+    <section class="slide">
+      <h3 class="kick">Onestà · Limiti attuali</h3>
+      <h2>Cosa non fa (ancora).</h2>
+      <p class="lead">È un prototipo da hackathon: sappiamo dove deve crescere prima di poter arrivare a persone reali.</p>
+      <div class="cols" style="margin-top:8px">
+        <div class="card accent">
+          <h4>Privacy &amp; dati personali</h4>
+          <ul class="bullets avoid">
+            <li>Una bolletta contiene dati sensibili: nome, indirizzo, codice fiscale, codice del contatore</li>
+            <li>Oggi l'immagine viene inviata a un servizio esterno per l'analisi</li>
+            <li>Manca ancora una gestione robusta: consenso, cifratura, nessuna conservazione, cancellazione</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>Copertura &amp; affidabilità</h4>
+          <ul class="bullets avoid">
+            <li>Per ora solo luce e gas; non tutti i formati/fornitori testati</li>
+            <li>Serve una connessione a internet: non funziona offline</li>
+            <li>La lettura automatica può sbagliare — per questo mostriamo il grado di confidenza</li>
+            <li>Spiega e riepiloga, ma non paga né archivia al posto dell'utente</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10 · EVOLUZIONE -->
+    <section class="slide">
+      <h3 class="kick">Roadmap · Come può evolvere</h3>
+      <h2>Dove vogliamo <span class="grad">portarla.</span></h2>
+      <div class="cols">
+        <div class="card accent">
+          <h4>Privacy by design (priorità)</h4>
+          <ul class="bullets ok">
+            <li>Cifratura e mascheramento dei dati sensibili prima dell'elaborazione</li>
+            <li>Cancellazione automatica: nessuna bolletta conservata dopo la spiegazione</li>
+            <li>Opzione di elaborazione locale/on-premise e piena conformità GDPR</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>Più accessibile</h4>
+          <ul class="bullets ok">
+            <li>Lettura ad alta voce per anziani e persone non vedenti</li>
+            <li>Multilingua, per chi non ha l'italiano come prima lingua</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>Più servizi</h4>
+          <ul class="bullets ok">
+            <li>Estensione ad acqua, TARI, telefonia e altri documenti</li>
+            <li>Storico e confronto nel tempo, avvisi di scadenza, rilevazione anomalie di consumo</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>Più valore per la persona</h4>
+          <ul class="bullets ok">
+            <li>Segnala i bonus a cui si ha diritto</li>
+            <li>Suggerimenti di risparmio in ottica educativa (mai consulenza finanziaria)</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 11 · GRAZIE -->
+    <section class="slide" style="align-items:center; text-align:center;">
+      <span class="eyebrow" style="align-self:center;">Bolletta Facile</span>
+      <h1><span class="grad">Grazie.</span></h1>
+      <p class="lead" style="margin:0 auto;">La tua bolletta, spiegata semplice.</p>
+    </section>
+
+  </div>
+
+  <div class="nav">
+    <button class="arrow" id="prev" aria-label="Precedente">‹</button>
+    <div class="dots" id="dots"></div>
+    <button class="arrow" id="next" aria-label="Successiva">›</button>
+  </div>
+  <div class="counter" id="counter"></div>
+
+<script>
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const dotsWrap = document.getElementById('dots');
+  const counter = document.getElementById('counter');
+  let i = 0;
+
+  slides.forEach((_, idx) => {
+    const d = document.createElement('button');
+    d.className = 'dot' + (idx === 0 ? ' on' : '');
+    d.setAttribute('aria-label', 'Slide ' + (idx + 1));
+    d.addEventListener('click', () => go(idx));
+    dotsWrap.appendChild(d);
+  });
+  const dots = Array.from(document.querySelectorAll('.dot'));
+
+  function go(n) {
+    i = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach((s, idx) => s.classList.toggle('active', idx === i));
+    dots.forEach((d, idx) => d.classList.toggle('on', idx === i));
+    counter.textContent = String(i + 1).padStart(2, '0') + ' / ' + String(slides.length).padStart(2, '0');
+  }
+  function next() { go(i + 1); }
+  function prev() { go(i - 1); }
+
+  document.getElementById('next').addEventListener('click', next);
+  document.getElementById('prev').addEventListener('click', prev);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') { e.preventDefault(); next(); }
+    if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); prev(); }
+    if (e.key === 'Home') go(0);
+    if (e.key === 'End') go(slides.length - 1);
+  });
+  go(0);
+</script>
+</body>
+</html>
