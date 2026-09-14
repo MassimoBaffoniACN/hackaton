@@ -135,6 +135,17 @@
   --p-datatable-row-hover-background: var(--color-primary-subtle);
   --p-datatable-border-color:         var(--color-border);
 
+  // ── Accordion ───────────────────────────────────────────────────────────
+  --p-accordion-header-padding:             var(--space-5) var(--space-6);
+  --p-accordion-header-color:               var(--color-text-primary);
+  --p-accordion-header-hover-color:         var(--color-primary);
+  --p-accordion-header-hover-background:    var(--color-bg-subtle);
+  --p-accordion-header-active-color:        var(--color-primary);
+  --p-accordion-header-active-background:   var(--color-primary-subtle);
+  --p-accordion-header-active-border-color: var(--color-primary);
+  --p-accordion-content-padding:            var(--space-5) var(--space-6) var(--space-6);
+  --p-accordion-panel-border-color:         var(--color-border);
+
   // ── Tabs ────────────────────────────────────────────────────────────────
   --p-tabs-tab-padding:           var(--space-3) var(--space-6);
   --p-tabs-tab-color:             var(--color-text-secondary);
@@ -159,6 +170,40 @@
   --p-tooltip-border-radius:      6px;
   --p-tooltip-padding:            var(--space-2) var(--space-3);
   --p-tooltip-font-size:          var(--font-size-sm);
+}
+
+
+// ── Accordion — panel separation + header typography ────────────────────────
+// Panels rendered as cards with gap; header uses --font-size-lg for scannability.
+.p-accordion {
+  display:        flex;
+  flex-direction: column;
+  gap:            var(--space-4);
+}
+
+.p-accordion-panel {
+  background:    var(--color-bg-surface);
+  border:        1px solid var(--color-border);
+  border-radius: var(--card-radius);
+  box-shadow:    var(--card-shadow);
+  overflow:      hidden;
+  transition:    box-shadow var(--transition-fast);
+
+  &:hover {
+    box-shadow: var(--card-shadow-hover);
+  }
+}
+
+// Header button — font-size, weight, and letter-spacing override
+// Targets both PrimeNG 21 styled (.p-accordion-header-link) and the raw <button>
+.p-accordion-header-link,
+.p-accordion-header > button,
+.p-accordion-header button {
+  font-family:    var(--font-primary);
+  font-size:      var(--font-size-lg);
+  font-weight:    var(--font-weight-bold);
+  letter-spacing: 0.01em;
+  line-height:    var(--line-height-tight);
 }
 
 
