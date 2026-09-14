@@ -1,9 +1,8 @@
-import { Component, output } from '@angular/core';
-import { ButtonModule } from 'primeng/button';
+import { Component, input } from '@angular/core';
+import { RispostaAnalisi } from '../domain/analisi';
 
 @Component({
   selector: 'app-results',
-  imports: [ButtonModule],
   templateUrl: './results.component.html',
   styleUrl: './results.component.scss',
   host: {
@@ -12,10 +11,5 @@ import { ButtonModule } from 'primeng/button';
   },
 })
 export class ResultsComponent {
-  /** Emette quando l'utente vuole ricominciare dal caricamento. */
-  readonly nuovoBollettino = output<void>();
-
-  onNuovaBolletta(): void {
-    this.nuovoBollettino.emit();
-  }
+  readonly risposta = input<RispostaAnalisi | null>(null);
 }

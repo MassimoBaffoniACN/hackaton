@@ -7,7 +7,7 @@
       "runtimeArgs": ["run", "start"],
       "cwd": "app",
       "port": 4200,
-      "url": "http://localhost:4200"
+      "autoPort": true
     }
   ]
 }

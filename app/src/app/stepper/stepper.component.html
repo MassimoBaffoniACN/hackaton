@@ -1,0 +1,21 @@
+<nav class="stepper page-layout" aria-label="Fasi del processo">
+  <ol class="stepper__list">
+    @for (step of steps(); track step.id) {
+      <li
+        class="stepper__item app-card"
+        [class.stepper__item--active]="step.isActive"
+        [class.stepper__item--completed]="step.isCompleted"
+        [attr.aria-current]="step.isActive ? 'step' : null"
+      >
+        <div class="stepper__item-content">
+          <i
+            [class]="'stepper__icon ' + (step.isCompleted ? 'pi pi-check-circle' : step.icona)"
+            aria-hidden="true"
+          ></i>
+          <h2 class="stepper__title">{{ step.titolo }}</h2>
+          <p class="stepper__description">{{ step.descrizione }}</p>
+        </div>
+      </li>
+    }
+  </ol>
+</nav>

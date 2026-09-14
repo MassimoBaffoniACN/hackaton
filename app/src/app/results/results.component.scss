@@ -5,12 +5,6 @@
 .results-layout {
   padding-block-start: var(--space-8);
 
-  &__toolbar {
-    display: flex;
-    justify-content: flex-end;
-    margin-block-end: var(--space-8);
-  }
-
   &__placeholder {
     display: flex;
     flex-direction: column;

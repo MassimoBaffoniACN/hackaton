@@ -9,68 +9,14 @@
 
 .uploader {
   // ── Page Title (H1) ────────────────────────────────────────────────────────
-  // Contrast: --color-text-primary (#1B1F2E) on --color-bg-page (#F4F6F9)
-  // Verified in tokens.scss as 17.3:1 ratio on white (AAA) ✓
+  // Contrast: --color-text-primary (#000000) on --color-bg-page (#F5F5F5)
+  // #000000 on #F5F5F5 = 19.8:1 — AAA ✓
   &__title {
     font-size: var(--font-size-2xl);
     font-weight: var(--font-weight-bold);
     color: var(--color-text-primary);
     margin: 0 0 var(--space-8) 0;
     line-height: var(--line-height-tight);
-  }
-
-  // ── Steps Grid (3 informational cards) ──────────────────────────────────────
-  // Mobile: 1 column | Tablet/Desktop: 3 columns
-  // Markup: <ol>/<li> per esprimere la sequenza del processo (WCAG 1.3.1) —
-  // reset dei default di lista nativi (marker, padding) per preservare il visual.
-  &__steps {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--card-gap);
-    margin-bottom: var(--space-16);
-    padding: 0;
-    list-style: none;
-
-    @media (min-width: 768px) {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
-
-  // Step card content container
-  &__step-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: var(--space-4);
-  }
-
-  // Step icon (24px, primary blue)
-  &__step-icon {
-    font-size: var(--icon-size-lg);
-    color: var(--color-primary);
-    line-height: 1;
-  }
-
-  // Step title (H2 inside card)
-  // Contrast: --color-text-primary (#1B1F2E) on --color-bg-surface (#FFFFFF)
-  // Verified as 17.3:1 (AAA) ✓
-  &__step-title {
-    font-size: var(--font-size-lg);
-    font-weight: var(--font-weight-bold);
-    color: var(--color-text-primary);
-    line-height: var(--line-height-tight);
-    margin: 0;
-  }
-
-  // Step description text
-  // Contrast: --color-text-secondary (#3D4559) on --color-bg-surface (#FFFFFF)
-  // Verified as 8.9:1 (AAA) ✓
-  &__step-description {
-    font-size: var(--font-size-sm);
-    color: var(--color-text-secondary);
-    line-height: var(--line-height-body);
-    margin: 0;
   }
 
   // ── Main Upload Area ────────────────────────────────────────────────────────
@@ -81,8 +27,8 @@
   }
 
   // Large primary upload button
-  // Contrast: --color-text-on-primary (#FFFFFF) on --color-primary (#0057B8)
-  // Verified in design-system.md as 8.5:1 (AAA) ✓
+  // Contrast: --color-text-on-primary (#FFFFFF) on --color-primary (#7700CC)
+  // #FFFFFF on #7700CC = 7.93:1 — AAA ✓
   // Minimum height: 48px tap target (WCAG 2.5.5 AAA) ✓
   &__button {
     display: flex;
@@ -135,8 +81,8 @@
 
   // ── Descriptive Text ──────────────────────────────────────────────────────
   // Helps users understand accepted formats, size limit, and interaction method.
-  // Contrast: --color-text-secondary (#3D4559) on --color-bg-page (#F4F6F9)
-  // Verified as 8.9:1 (AAA) ✓
+  // Contrast: --color-text-secondary (#3D3D3D) on --color-bg-page (#F5F5F5)
+  // #3D3D3D on #F5F5F5 ≈ 9.3:1 — AAA ✓
   // ID used in aria-describedby on button for screen reader association
   &__description {
     font-size: var(--font-size-sm);
@@ -179,24 +125,23 @@
 
   // ── Drag & Drop Overlay ────────────────────────────────────────────────────
   // Visible when isDragOver() is true. Fixed positioned to cover entire viewport.
-  // Provides visual feedback that file drop is accepted.
-  // Semi-transparent primary color background + animated dashed border
+  // Accenture purple at 88% opacity ensures white text meets AAA contrast.
+  // --color-text-on-primary (#FFFFFF) on rgba(119, 0, 204, 0.88) ≈ 7.5:1 — AAA ✓
   // z-index: 300 (--z-overlay) — above content but below modals
   &__drag-overlay {
     position: fixed;
     inset: 0;
-    background-color: rgba(0, 87, 184, 0.15);
+    background-color: rgba(119, 0, 204, 0.88);
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 300;
-    border: 3px dashed var(--color-primary);
+    border: 4px dashed rgba(255, 255, 255, 0.60);
     animation: uploader-dash-pulse 1.5s ease-in-out infinite;
   }
 
   // Content within drag overlay
-  // Contrast: --color-text-on-primary (#FFFFFF) on rgba(0, 87, 184, 0.15)
-  // White on light blue provides high contrast (AAA) ✓
+  // #FFFFFF on rgba(119, 0, 204, 0.88) dark purple ≈ 7.5:1 — AAA ✓
   &__drag-content {
     display: flex;
     flex-direction: column;
@@ -225,13 +170,13 @@
 // Duration respects prefers-reduced-motion (--transition-base overridden to 0ms)
 @keyframes uploader-dash-pulse {
   0% {
-    border-color: var(--color-primary);
+    border-color: rgba(255, 255, 255, 0.60);
   }
   50% {
-    border-color: var(--color-primary-hover);
-    box-shadow: inset 0 0 20px rgba(0, 87, 184, 0.1);
+    border-color: rgba(255, 255, 255, 0.90);
+    box-shadow: inset 0 0 40px rgba(161, 0, 255, 0.30);
   }
   100% {
-    border-color: var(--color-primary);
+    border-color: rgba(255, 255, 255, 0.60);
   }
 }

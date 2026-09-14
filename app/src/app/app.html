@@ -1,12 +1,26 @@
 <app-skip-link />
-<app-header />
+<app-header
+  [mostraNuovaBolletta]="currentStep() === 3"
+  (nuovaBollettino)="onNuovaBolletta()"
+/>
+<app-stepper [activeStep]="currentStep()" />
 <main id="main">
   @switch (currentStep()) {
     @case (1) {
       <app-uploader (fileSelezionato)="onFileSelezionato($event)" />
     }
     @case (2) {
-      <app-results (nuovoBollettino)="onNuovaBolletta()" />
+      @let file = fileCorrente();
+      @if (file) {
+        <app-analisi
+          [file]="file"
+          (analisiCompletata)="onAnalisiCompletata($event)"
+          (analisiErrore)="onNuovaBolletta()"
+        />
+      }
+    }
+    @case (3) {
+      <app-results [risposta]="rispostaAnalisi()" />
     }
   }
 </main>

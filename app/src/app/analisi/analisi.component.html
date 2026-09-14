@@ -1,0 +1,46 @@
+<div class="analisi page-layout">
+
+  @if (stato() === 'caricamento') {
+    <div class="analisi__loading" aria-live="polite" aria-atomic="true">
+      <p-progressSpinner
+        class="analisi__spinner"
+        strokeWidth="4"
+        ariaLabel="Analisi in corso"
+      />
+
+      <div class="analisi__loading-text">
+        <h2 class="analisi__title">Analisi in corso</h2>
+        <p class="analisi__subtitle">
+          Stiamo elaborando la bolletta
+          <strong>{{ file().name }}</strong>.
+          Questa operazione richiede qualche secondo.
+        </p>
+      </div>
+
+      <p-progressbar
+        class="analisi__progress"
+        mode="indeterminate"
+        [style]="{ height: '8px' }"
+        aria-label="Progresso analisi"
+      />
+    </div>
+  }
+
+  @if (stato() === 'errore') {
+    <div class="analisi__error" role="alert">
+      <i class="pi pi-exclamation-triangle analisi__error-icon" aria-hidden="true"></i>
+      <div class="analisi__error-body">
+        <h2 class="analisi__title">Analisi non riuscita</h2>
+        <p class="analisi__subtitle">{{ messaggioErrore() }}</p>
+        <p-button
+          label="Torna al caricamento"
+          icon="pi pi-arrow-left"
+          [outlined]="true"
+          (onClick)="onRiprova()"
+          aria-label="Torna al passo di caricamento per riprovare"
+        />
+      </div>
+    </div>
+  }
+
+</div>

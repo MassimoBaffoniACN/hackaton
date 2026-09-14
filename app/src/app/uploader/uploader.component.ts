@@ -1,7 +1,7 @@
 import { Component, ElementRef, HostListener, computed, inject, output, signal, viewChild } from '@angular/core';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { UploaderService } from './uploader.service';
-import { UploaderState, UploaderStep } from './uploader.interfaces';
+import { UploaderState } from './uploader.interfaces';
 
 /**
  * Punto di ingresso del flusso di caricamento bolletta.
@@ -42,27 +42,6 @@ export class UploaderComponent {
   readonly descrizioneAriaIds = computed(() =>
     this._erroreValidazione() ? 'uploader__description uploader__error' : 'uploader__description',
   );
-
-  readonly steps = computed<UploaderStep[]>(() => [
-    {
-      id: 1,
-      titolo: 'Carica la bolletta',
-      descrizione: 'Seleziona o trascina il file della bolletta da analizzare.',
-      icona: 'pi pi-upload',
-    },
-    {
-      id: 2,
-      titolo: 'Analisi automatica',
-      descrizione: 'Il sistema estrae ed elabora automaticamente i dati della bolletta.',
-      icona: 'pi pi-search',
-    },
-    {
-      id: 3,
-      titolo: 'Leggi i dati semplificati',
-      descrizione: 'Visualizza un riepilogo chiaro dei consumi e dei costi.',
-      icona: 'pi pi-chart-bar',
-    },
-  ]);
 
   /** Emette il file una volta superata la validazione. */
   readonly fileSelezionato = output<File>();

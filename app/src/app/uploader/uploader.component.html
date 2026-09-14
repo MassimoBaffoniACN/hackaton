@@ -1,19 +1,6 @@
 <div class="page-layout">
   <h2 class="uploader__title">Carica la tua bolletta</h2>
 
-  <!-- Tre card informativi dei step: <ol> per esprimere la sequenza del processo (WCAG 1.3.1) -->
-  <ol class="uploader__steps">
-    @for (step of steps(); track step.id) {
-      <li class="app-card">
-        <div class="uploader__step-content">
-          <i [class]="'uploader__step-icon ' + step.icona" aria-hidden="true"></i>
-          <h2 class="uploader__step-title">{{ step.titolo }}</h2>
-          <p class="uploader__step-description">{{ step.descrizione }}</p>
-        </div>
-      </li>
-    }
-  </ol>
-
   <!-- Area principale di caricamento -->
   <div class="uploader__main">
     <!-- Bottone di caricamento -->

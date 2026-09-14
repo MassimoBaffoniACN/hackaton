@@ -1,4 +1,13 @@
 <div class="header__inner">
+  <!-- Accenture ">" brand mark — decorative, aria-hidden -->
+  <span class="header__accenture-mark" aria-hidden="true">
+    <svg viewBox="0 0 22 36" width="22" height="36" focusable="false" xmlns="http://www.w3.org/2000/svg">
+      <polyline points="3,3 19,18 3,33" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="square" stroke-linejoin="miter"/>
+    </svg>
+  </span>
+
+  <span class="header__divider" aria-hidden="true"></span>
+
   <img
     src="logo.png"
     alt="Bolletta Facile"
@@ -7,4 +16,15 @@
     height="40"
   />
   <h1 class="header__title">Bolletta Facile</h1>
+
+  @if (mostraNuovaBolletta()) {
+    <p-button
+      class="header__action"
+      label="Carica un'altra bolletta"
+      icon="pi pi-upload"
+      [outlined]="true"
+      (onClick)="onNuovaBolletta()"
+      aria-label="Carica un'altra bolletta e torna al passo iniziale"
+    />
+  }
 </div>

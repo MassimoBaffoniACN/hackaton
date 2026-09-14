@@ -61,22 +61,30 @@ Testo sempre allineato a sinistra. No testo giustificato.
 
 ---
 
-## Palette — WCAG AAA, sicura per daltonici
+## Palette — Accenture Brand, WCAG AAA, sicura per daltonici
+
+**Brand Accenture:** Il colore primario è Accenture Purple.
+- `#A100FF` (Accenture signature purple): 5.17:1 su bianco → AAA per testo grande (≥24px) ✓
+- `#7700CC` (dark Accenture purple, colore interattivo): 7.93:1 su bianco → AAA per tutto il testo ✓
+- Header: sfondo nero `#000000`, testo bianco `#FFFFFF` → 21:1 → AAA ✓
 
 Tutti i rapporti di contrasto sono verificati su `--color-bg-surface` (#FFFFFF).
 
-| Token | Hex | Rapporto | Level |
-|---|---|---|---|
-| `--color-text-primary` | `#1B1F2E` | 17.3:1 | AAA |
-| `--color-text-secondary` | `#3D4559` | 8.9:1 | AAA |
-| `--color-primary` | `#0057B8` | 8.5:1 | AAA |
-| `--color-success` | `#006B4F` | 7.8:1 | AAA |
-| `--color-warning` | `#92400E` | 8.3:1 | AAA |
-| `--color-error` | `#991B1B` | 8.8:1 | AAA |
+| Token | Hex | Rapporto | Level | Uso |
+|---|---|---|---|---|
+| `--color-text-primary` | `#000000` | 21:1 | AAA | corpo testo |
+| `--color-text-secondary` | `#3D3D3D` | 9.6:1 | AAA | testo secondario |
+| `--color-primary` | `#7700CC` | 7.93:1 | AAA | bottoni, link, azioni interattive |
+| `--color-accent` | `#A100FF` | 5.17:1 | AAA large text | elementi decorativi, testo ≥24px |
+| `--color-success` | `#006B4F` | 7.8:1 | AAA | stati di successo |
+| `--color-warning` | `#92400E` | 8.3:1 | AAA | stati di attenzione |
+| `--color-error` | `#991B1B` | 8.8:1 | AAA | stati di errore |
 
-**Colori semantici:** verde-teal (non verde puro, sicuro per deuteranopia/protanopia), ambra-marrone (non giallo puro), cremisi scuro.
+**`--color-accent` (#A100FF):** usare SOLO per elementi decorativi (`aria-hidden`), testo grande (≥24px), bordi e linee accent. NON usare per testo di dimensione normale.
 
-**Modalità alto contrasto:** gestita automaticamente da `@media (prefers-contrast: more)` in `_tokens.scss`. Non gestirla nei componenti.
+**Colori semantici:** verde-teal (sicuro per deuteranopia/protanopia), ambra-marrone (non giallo puro), cremisi scuro.
+
+**Modalità alto contrasto:** gestita automaticamente da `@media (prefers-contrast: more)` in `_tokens.scss`.
 
 **Daltonismo:** mai usare rosso/verde come unico segnale differenziatore.
 
