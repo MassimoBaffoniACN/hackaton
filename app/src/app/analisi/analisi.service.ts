@@ -10,6 +10,6 @@ export class AnalisiService {
   carica(file: File): Observable<RispostaAnalisi> {
     const body = new FormData();
     body.append('file', file, file.name);
-    return this.http.post<RispostaAnalisi>('/api/analisi', body);
+    return this.http.post<RispostaAnalisi>('http://localhost:8080/api/analizza', body);
   }
 }
