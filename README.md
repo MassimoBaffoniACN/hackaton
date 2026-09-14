@@ -47,8 +47,8 @@ pronti, così puoi costruire e mostrare l'app a costo zero. Quando avrai la key,
 
 In mock la scelta del dato di esempio dipende dal **nome del file caricato**: ogni bolletta di test in
 `materiale_test/` ha un campione dedicato e accurato (riconosciuto da parole chiave nel nome, es.
-`enel-luce`, `servizio_elettrico`, `fotovoltaic`, `facsimile-bolletta-gas`, `guida_gas`); un file non
-riconosciuto ricade su un caso dimostrativo generico.
+`enel-luce`, `servizio_elettrico`, `fotovoltaic`, `facsimile-bolletta-gas`, `guida_gas`); un file **non
+riconosciuto** riceve un **errore HTTP 422** (in demo si analizzano solo le bollette di esempio).
 
 ---
 

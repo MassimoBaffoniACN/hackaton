@@ -1,5 +1,8 @@
 server:
   port: 8080
+  error:
+    # espone il messaggio d'errore nel corpo JSON (es. il 422 quando il file non è tra le bollette di esempio)
+    include-message: always
 
 spring:
   application:

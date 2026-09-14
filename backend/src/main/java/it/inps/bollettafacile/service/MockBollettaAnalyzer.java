@@ -7,8 +7,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -20,8 +22,9 @@ import java.util.Locale;
  * Restituisce dati di esempio caricati da {@code resources/mock/samples.json}.
  * Attiva solo con profilo {@code mock}.
  *
- * <p>Comportamento (opzione B): se il nome del file caricato contiene una delle parole chiave {@code match}
- * di un campione, ritorna quel campione; altrimenti ritorna il campione marcato {@code default}.</p>
+ * <p>Comportamento: se il nome del file caricato contiene una delle parole chiave {@code match}
+ * di un campione, ritorna quel campione; altrimenti risponde con errore HTTP 422 (il file non è tra
+ * le bollette di esempio).</p>
  */
 @Service
 @Profile("mock")
@@ -46,17 +49,17 @@ public class MockBollettaAnalyzer implements BollettaAnalyzer {
                 .filter(s -> s.match() != null && s.match().stream()
                         .anyMatch(k -> !k.isBlank() && filename.contains(k.toLowerCase(Locale.ROOT))))
                 .findFirst()
-                .orElseGet(this::defaultSample);
+                .orElseThrow(() -> {
+                    log.info("MOCK: file '{}' non riconosciuto tra le bollette di esempio", filename);
+                    return new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY,
+                            "In modalità dimostrativa (mock) l'analisi è disponibile solo per le bollette di "
+                            + "esempio in materiale_test. Il file caricato non è tra queste. Per analizzare "
+                            + "una bolletta qualsiasi, avvia il backend senza il profilo 'mock' e con una "
+                            + "ANTHROPIC_API_KEY valida.");
+                });
 
         log.info("MOCK: file '{}' -> campione '{}'", filename, chosen.match());
         return new AnalisiResponse(chosen.analisi(), null, chosen.spiegazione(), chosen.informazioniPrincipali());
-    }
-
-    private MockSample defaultSample() {
-        return samples.stream()
-                .filter(MockSample::isDefault)
-                .findFirst()
-                .orElse(samples.get(0));
     }
 
     private List<MockSample> loadSamples() {
