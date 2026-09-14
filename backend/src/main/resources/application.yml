@@ -1,0 +1,31 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: bolletta-facile-backend
+  # Profili:
+  #  - (nessuno)  -> modalità REALE: chiama Claude, richiede ANTHROPIC_API_KEY valida
+  #  - mock       -> modalità MOCK: dati di esempio, nessuna chiamata a Claude, nessuna key richiesta
+  # Attivazione mock: SPRING_PROFILES_ACTIVE=mock  oppure  -Dspring-boot.run.profiles=mock
+  servlet:
+    multipart:
+      # le bollette PDF/immagine possono essere grandi; limite allineato a quello dell'API (32MB)
+      max-file-size: 32MB
+      max-request-size: 32MB
+
+# Configurazione della catena di agenti.
+# La API key NON va qui: viene letta dalla variabile d'ambiente ANTHROPIC_API_KEY.
+anthropic:
+  # Modello usato per entrambe le chiamate. Per contenere i costi in demo: claude-sonnet-5.
+  model: claude-opus-5
+  # Token massimi in uscita per ciascuno step.
+  max-tokens-reader: 16000
+  max-tokens-explainer: 8000
+  # Effort del modello: low | medium | high | xhigh | max. "low" riduce costo e latenza.
+  effort: low
+
+# CORS: origine dell'app Angular in sviluppo.
+app:
+  cors:
+    allowed-origin: http://localhost:4200

@@ -10,6 +10,11 @@ __pycache__/
 .venv/
 *.egg-info/
 
+# Java / Maven (backend Spring Boot)
+target/
+*.class
+*.log
+
 # OS
 .DS_Store
 Thumbs.db

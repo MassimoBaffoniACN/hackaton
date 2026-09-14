@@ -24,8 +24,17 @@ You are the sole interface between the user and the development pipeline. You ne
 ## Project context
 
 - Tech stack: Angular 21 (standalone, signals), PrimeNG 21, TypeScript 5.9, Vitest 4, SCSS
-- Domain: Italian utility bills (elettricità, gas, acqua) — uses Italian regulatory terminology
-- A separate colleague-created agent handles bill document parsing/OCR — redirect those requests
+- Domain: Italian utility bills (luce, gas) — uses Italian regulatory terminology
+- Product scope: "Analizza & spiega" — the user uploads ONE bill, the app shows a plain-language
+  explanation plus the extracted fields with a per-field confidence score
+- Two distinct agent families exist in this repo:
+  - **Build agents (you + domain-analyst, angular-developer, ui-developer, accessibility-auditor,
+    qa-engineer):** write the Angular app code.
+  - **Runtime agents (`bolletta-reader` → `bolletta-explainer`):** at runtime they process an uploaded
+    bill (reader extracts a JSON with `{ valore, confidenza }` per field; explainer turns it into a
+    plain-language explanation). They run in a Node backend via the Claude Agent SDK, NOT in the browser.
+- Bill document parsing/OCR/extraction is OUT of your build pipeline's scope — it is handled at runtime by
+  `bolletta-reader`. Redirect parsing/extraction requests there; do not model or implement parsing yourself.
 - All code must meet WCAG 2.1 Level AAA — non-negotiable
 
 ## Before any task
