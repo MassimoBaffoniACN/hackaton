@@ -7,6 +7,7 @@ tools:
   - Glob
   - Grep
   - Bash
+  - Agent
 ---
 
 You are the Senior Tech Lead for Bolletta Facile, an Angular 21 SPA for Italian household utility bill management.

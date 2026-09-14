@@ -1,0 +1,34 @@
+:host {
+  display: block;
+  background-color: var(--color-bg-surface);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.header__inner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  max-width: var(--layout-max-width);
+  margin-inline: auto;
+  padding-block: var(--space-4);
+  padding-inline: var(--layout-gutter);
+
+  @media (min-width: 768px) {
+    padding-inline: var(--layout-gutter-md);
+  }
+}
+
+.header__logo {
+  display: block;
+  flex-shrink: 0;
+}
+
+// --color-text-primary (#1B1F2E) su --color-bg-surface (#FFFFFF) → 17.3:1 (AAA).
+.header__title {
+  margin: 0;
+  font-family: var(--font-primary);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+  color: var(--color-text-primary);
+}

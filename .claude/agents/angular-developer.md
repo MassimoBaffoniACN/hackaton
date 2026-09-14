@@ -55,10 +55,17 @@ These are non-optional. The accessibility-auditor will verify them.
 
 ## File creation contract
 
-When creating a component named `feature-name`:
-1. `app/src/app/{feature}/feature-name.ts` — complete TypeScript implementation
-2. `app/src/app/{feature}/feature-name.html` — single line only: `<!-- TODO: ui-developer -->`
-3. `app/src/app/{feature}/feature-name.scss` — empty file
+When creating a component named `feature-name`, create exactly these 6 files:
+
+1. `app/src/app/{feature}/feature-name.component.ts` — complete TypeScript implementation
+2. `app/src/app/{feature}/feature-name.component.html` — single line only: `<!-- TODO: ui-developer -->`
+3. `app/src/app/{feature}/feature-name.component.scss` — empty file
+4. `app/src/app/{feature}/feature-name.interfaces.ts` — feature-scoped interfaces and types (UI state, local DTOs, form models). Import domain types from `app/src/app/domain/index.ts`; never duplicate them here.
+5. `app/src/app/{feature}/feature-name.service.ts` — feature service (`@Injectable({ providedIn: 'root' })`). If the feature has no data logic of its own, create a minimal service with a comment explaining this; still create the file.
+6. `app/src/app/{feature}/feature-name.component.spec.ts` — empty spec stub: `// TODO: qa-engineer`
+
+**Naming rule:** all files use kebab-case matching the feature folder name.
+**Ownership:** ui-developer owns `.html` and `.scss`; qa-engineer owns `.spec.ts`; you own `.component.ts`, `.interfaces.ts`, and `.service.ts`.
 
 The ui-developer agent owns HTML templates and SCSS. You do not write real templates as primary work. However, if reading an existing template reveals an optimization that requires both a TypeScript change AND a template change, use the cross-agent request protocol below.
 

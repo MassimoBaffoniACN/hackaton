@@ -1,0 +1,27 @@
+:host {
+  display: block;
+}
+
+// Visivamente nascosto finché non riceve il focus (pattern skip-link standard WCAG 2.4.1).
+// Quando visibile: bianco su --color-primary → contrasto 8.5:1 (AAA).
+.skip-link {
+  position: absolute;
+  top: calc(-1 * var(--space-20));
+  left: var(--space-4);
+  z-index: var(--z-toast);
+  padding: var(--space-3) var(--space-6);
+  background-color: var(--color-primary);
+  color: var(--color-text-on-primary);
+  font-family: var(--font-primary);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-base);
+  text-decoration: none;
+  border-radius: var(--btn-border-radius);
+  transition: top var(--transition-fast);
+
+  &:focus-visible {
+    top: var(--space-4);
+    outline: none;
+    box-shadow: var(--focus-ring);
+  }
+}

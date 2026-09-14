@@ -1,7 +1,12 @@
-<img
-  src="logo.png"
-  alt="La mia bolletta"
-  width="300"
-  height="300"
->
-<h1>La mia bolletta</h1>
+<app-skip-link />
+<app-header />
+<main id="main">
+  @switch (currentStep()) {
+    @case (1) {
+      <app-uploader (fileSelezionato)="onFileSelezionato($event)" />
+    }
+    @case (2) {
+      <app-results (nuovoBollettino)="onNuovaBolletta()" />
+    }
+  }
+</main>

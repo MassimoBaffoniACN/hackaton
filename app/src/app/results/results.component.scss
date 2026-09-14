@@ -1,0 +1,33 @@
+:host {
+  display: block;
+}
+
+.results-layout {
+  padding-block-start: var(--space-8);
+
+  &__toolbar {
+    display: flex;
+    justify-content: flex-end;
+    margin-block-end: var(--space-8);
+  }
+
+  &__placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-6);
+    padding-block: var(--space-16);
+    color: var(--color-text-secondary);
+  }
+
+  &__placeholder-icon {
+    font-size: 3rem;
+  }
+
+  &__placeholder-text {
+    font-size: var(--font-size-base);
+    max-width: var(--max-line-length);
+    text-align: center;
+    line-height: var(--line-height-body);
+  }
+}

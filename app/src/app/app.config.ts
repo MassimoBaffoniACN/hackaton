@@ -1,11 +1,9 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
-import { provideRouter } from '@angular/router';
 
-import { routes } from './app.routes';
-
+// Navigazione tra step gestita internamente con signal (currentStep in App).
+// Non si usa il router Angular: nessuna route, nessun RouterOutlet.
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideRouter(routes)
   ]
 };

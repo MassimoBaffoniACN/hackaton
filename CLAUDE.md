@@ -40,7 +40,7 @@ hackathon/
 │           ├── app.routes.ts    ← routing root, tutte le route lazy
 │           ├── domain/          ← interfacce e enum TypeScript del dominio (nessuna logica)
 │           ├── services/        ← singleton services (@Injectable providedIn:'root')
-│           └── {feature}/       ← un folder per feature: .ts · .html · .scss · .spec.ts
+│           └── {feature}/       ← un folder per feature (5 file obbligatori, vedi §Struttura file per feature)
 └── presentation/          ← slide statiche del progetto (non parte dell'app)
 ```
 
@@ -92,6 +92,29 @@ Quando un agent rileva un'ottimizzazione fuori dal proprio dominio, emette un bl
 ### Scope boundary
 
 L'analisi/parsing del documento bolletta (PDF, OCR, estrazione dati) è gestita da un **agent separato creato da un collega** — non è in scope qui. Se un task riguarda quel dominio, reindirizza.
+
+---
+
+## Struttura file per feature — obbligatoria
+
+Ogni feature deve vivere in una propria cartella con esattamente questi file:
+
+```
+app/src/app/{feature}/
+├── {feature}.component.ts        ← class del componente: segnali, DI, logica
+├── {feature}.component.html      ← template (dominio ui-developer)
+├── {feature}.component.scss      ← foglio di stile (dominio ui-developer)
+├── {feature}.interfaces.ts       ← interfacce e tipi specifici della feature
+├── {feature}.service.ts          ← service della feature (se ha logica dati propria)
+└── {feature}.component.spec.ts   ← test Vitest (dominio qa-engineer)
+```
+
+**Regole:**
+- `angular-developer` crea tutti e 6 i file (html e scss come stub vuoti)
+- Le interfacce condivise tra feature restano in `app/src/app/domain/`
+- Le interfacce interne alla feature (es. stato UI, DTO locale) stanno in `{feature}.interfaces.ts`
+- I servizi singleton globali restano in `app/src/app/services/`
+- Il service di feature (`{feature}.service.ts`) è per logica dati specifica del componente
 
 ---
 

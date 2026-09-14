@@ -1,0 +1,66 @@
+<div class="page-layout">
+  <h2 class="uploader__title">Carica la tua bolletta</h2>
+
+  <!-- Tre card informativi dei step: <ol> per esprimere la sequenza del processo (WCAG 1.3.1) -->
+  <ol class="uploader__steps">
+    @for (step of steps(); track step.id) {
+      <li class="app-card">
+        <div class="uploader__step-content">
+          <i [class]="'uploader__step-icon ' + step.icona" aria-hidden="true"></i>
+          <h2 class="uploader__step-title">{{ step.titolo }}</h2>
+          <p class="uploader__step-description">{{ step.descrizione }}</p>
+        </div>
+      </li>
+    }
+  </ol>
+
+  <!-- Area principale di caricamento -->
+  <div class="uploader__main">
+    <!-- Bottone di caricamento -->
+    <button
+      type="button"
+      class="uploader__button"
+      (click)="apriSelettoreFile()"
+      [disabled]="isLoading()"
+      [attr.aria-describedby]="descrizioneAriaIds()"
+    >
+      <i class="pi pi-upload" aria-hidden="true"></i>
+      <span>Allega la tua bolletta</span>
+    </button>
+
+    <!-- Testo descrittivo -->
+    <p id="uploader__description" class="uploader__description">
+      Trascina il file in qualsiasi punto della pagina oppure clicca il bottone.
+      Formati accettati: PDF, JPG, PNG. Dimensione massima: 10 MB.
+    </p>
+
+    <!-- Zona errore (visibile solo se presente) -->
+    @if (erroreValidazione()) {
+      <div id="uploader__error" class="uploader__error" role="alert">
+        <i class="pi pi-exclamation-triangle" aria-hidden="true"></i>
+        <span>{{ erroreValidazione() }}</span>
+      </div>
+    }
+  </div>
+
+  <!-- Input file nascosto (attivato dal bottone) -->
+  <input
+    #inputFile
+    type="file"
+    [hidden]="true"
+    accept="application/pdf,image/jpeg,image/png"
+    (change)="onFileSelezionato($event)"
+    aria-hidden="true"
+    tabindex="-1"
+  />
+</div>
+
+<!-- Overlay drag & drop (visibile quando isDragOver è true) -->
+@if (isDragOver()) {
+  <div class="uploader__drag-overlay" aria-hidden="true">
+    <div class="uploader__drag-content">
+      <i class="pi pi-download" aria-hidden="true"></i>
+      <p>Rilascia il file qui</p>
+    </div>
+  </div>
+}
