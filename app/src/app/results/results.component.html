@@ -1,8 +1,83 @@
-<div class="results-layout page-layout">
-  <div class="results-layout__placeholder" aria-live="polite">
-    <i class="pi pi-chart-bar results-layout__placeholder-icon" aria-hidden="true"></i>
-    <p class="results-layout__placeholder-text">
-      I risultati dell'analisi verranno visualizzati qui.
-    </p>
-  </div>
-</div>
+<article class="results page-layout">
+  @if (risposta()) {
+
+    <!-- Riepilogo informazioni principali -->
+    <section class="results__section" aria-labelledby="info-heading">
+      <header class="section-header">
+        <i class="pi pi-list section-header__icon" aria-hidden="true"></i>
+        <h2 class="section-header__title" id="info-heading">Riepilogo bolletta</h2>
+      </header>
+
+      @if (boxLarge().length > 0) {
+        <div class="results__boxes results__boxes--large" role="list" aria-label="Dati principali">
+          @for (box of boxLarge(); track box.label) {
+            <div class="info-box info-box--large" role="listitem">
+              <i class="pi {{ box.icona }} info-box__icon" aria-hidden="true"></i>
+              <span class="info-box__label">{{ box.label }}</span>
+              <span class="info-box__valore">{{ box.valore }}</span>
+              @if (box.confidenza !== null) {
+                <span class="info-box__confidenza">
+                  <i class="pi pi-info-circle" aria-hidden="true"></i>
+                  Affidabilità {{ box.confidenza }}%
+                </span>
+              }
+            </div>
+          }
+        </div>
+      }
+
+      @if (boxNormal().length > 0) {
+        <div class="results__boxes results__boxes--normal" role="list" aria-label="Ulteriori dati">
+          @for (box of boxNormal(); track box.label) {
+            <div class="info-box info-box--normal info-box--{{ box.variante }}" role="listitem">
+              <i class="pi {{ box.icona }} info-box__icon" aria-hidden="true"></i>
+              <div class="info-box__body">
+                <span class="info-box__label">{{ box.label }}</span>
+                <span class="info-box__valore">{{ box.valore }}</span>
+              </div>
+              @if (box.confidenza !== null) {
+                <span class="info-box__confidenza" aria-label="Affidabilità {{ box.confidenza }}%">
+                  {{ box.confidenza }}%
+                </span>
+              }
+            </div>
+          }
+        </div>
+      }
+
+      @if (boxLarge().length === 0 && boxNormal().length === 0) {
+        <p class="results__no-data">
+          <i class="pi pi-info-circle" aria-hidden="true"></i>
+          Nessuna informazione principale disponibile per questa bolletta.
+        </p>
+      }
+    </section>
+
+    <!-- Spiegazione dettagliata in linguaggio semplice -->
+    @if (sezioniSpiegazione().length > 0) {
+      <section class="results__section" aria-labelledby="spiegazione-heading">
+        <header class="section-header">
+          <i class="pi pi-book section-header__icon" aria-hidden="true"></i>
+          <h2 class="section-header__title" id="spiegazione-heading">Spiegazione dettagliata</h2>
+        </header>
+
+        <p-accordion class="results__accordion">
+          @for (sezione of sezioniSpiegazione(); track sezione.titolo; let i = $index) {
+            <p-accordion-panel [value]="i">
+              <p-accordion-header>{{ sezione.titolo }}</p-accordion-header>
+              <p-accordion-content>
+                <div class="spiegazione__testo" [innerHTML]="sezione.testoHtml"></div>
+              </p-accordion-content>
+            </p-accordion-panel>
+          }
+        </p-accordion>
+      </section>
+    }
+
+  } @else {
+    <div class="results__placeholder" aria-live="polite">
+      <i class="pi pi-chart-bar results__placeholder-icon" aria-hidden="true"></i>
+      <p class="results__placeholder-text">I risultati dell'analisi verranno visualizzati qui.</p>
+    </div>
+  }
+</article>

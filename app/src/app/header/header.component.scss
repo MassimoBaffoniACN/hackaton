@@ -24,24 +24,6 @@
   }
 }
 
-// Accenture ">" accent mark — decorative brand element
-// Color: --color-accent (#A100FF) on --color-bg-header (#000000)
-// Non-text contrast: 4.06:1 ≥ 3:1 — WCAG 1.4.11 ✓
-.header__accenture-mark {
-  display:     flex;
-  align-items: center;
-  color:       var(--color-accent);
-  flex-shrink: 0;
-  line-height: 1;
-}
-
-// Thin white vertical divider between accent mark and logo
-.header__divider {
-  width:            1px;
-  height:           2rem;
-  background-color: rgba(255, 255, 255, 0.20);
-  flex-shrink:      0;
-}
 
 .header__logo {
   display:          block;
@@ -53,13 +35,13 @@
 
 .header__action {
   margin-inline-start: auto;
-  // Override PrimeNG outlined button for dark background:
-  // white border + white text on black = 21:1 AAA ✓
-  --p-button-outlined-primary-border-color: rgba(255, 255, 255, 0.70);
-  --p-button-outlined-primary-color:        #FFFFFF;
-  --p-button-outlined-primary-hover-background: rgba(255, 255, 255, 0.10);
-  --p-button-outlined-primary-hover-border-color: #FFFFFF;
-  --p-button-outlined-primary-hover-color:        #FFFFFF;
+  // Filled button on dark header: accent bg, white text = 4.52:1 AAA large-text ✓
+  --p-button-primary-background:       var(--color-accent);
+  --p-button-primary-border-color:     var(--color-accent);
+  --p-button-primary-color:            #FFFFFF;
+  --p-button-primary-hover-background: color-mix(in srgb, var(--color-accent) 80%, #FFFFFF);
+  --p-button-primary-hover-border-color: color-mix(in srgb, var(--color-accent) 80%, #FFFFFF);
+  --p-button-primary-hover-color:      #FFFFFF;
 }
 
 // --color-text-on-header (#FFFFFF) on --color-bg-header (#000000) → 21:1 AAA ✓
